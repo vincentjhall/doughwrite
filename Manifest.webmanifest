@@ -1,0 +1,9 @@
+{
+  "name": "Doughwrite",
+  "short_name": "Doughwrite",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#fff8ef",
+  "theme_color": "#70391b",
+  "description": "Precision pizza dough calculator and bake planner."
+}
