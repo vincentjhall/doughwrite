@@ -40,7 +40,7 @@
       <label>Flour %<input id="poolishPct" type="number" min="0" max="60" value="30"></label>
       <label>Hydration %<input id="poolishHydration" type="number" min="50" max="125" value="100"></label>
       <label>Yeast %<input id="poolishYeast" type="number" min="0" max="1" step="0.01" value="0.15"></label>
-      <label>Temp °F<input id="poolishTemp" type="number" min="35" max="90" value="70"></label>
+      <label><span data-temp-label>Temp °F</span><input id="poolishTemp" type="number" min="35" max="90" value="70"></label>
       <label>Hours<input id="poolishHours" type="number" min="1" max="30" value="14"></label>
     </div>
   </section>
@@ -48,12 +48,13 @@
   <section class="input-card">
     <h2>Timeline &amp; oven</h2>
     <div class="grid">
-      <label>Storage temp °F<input id="storageTemp" type="number" min="32" max="75" value="40"></label>
+      <label>Temperature unit<select id="tempUnit"><option value="F">Fahrenheit (°F)</option><option value="C">Celsius (°C)</option></select></label>
+      <label><span data-temp-label>Storage temp °F</span><input id="storageTemp" type="number" min="32" max="75" value="40"></label>
       <label>Bake date/time<input id="bakeTime" type="datetime-local"></label>
       <label class="check wide"><input id="extraDay" type="checkbox">Hold another fridge day</label>
       <label>Oven<select id="oven"><option>Pizza Oven</option><option>Home Oven</option></select></label>
-      <label>Pizza oven °F<input id="pizzaOvenTemp" type="number" min="500" max="1000" value="750"></label>
-      <label>Home oven °F<input id="homeOvenTemp" type="number" min="400" max="600" value="550"></label>
+      <label><span data-temp-label>Pizza oven °F</span><input id="pizzaOvenTemp" type="number" min="500" max="1000" value="750"></label>
+      <label><span data-temp-label>Home oven °F</span><input id="homeOvenTemp" type="number" min="400" max="600" value="550"></label>
     </div>
     <div class="save-row"><label>Recipe name<input id="recipeName" type="text" placeholder="Example: Friday NY 15-inch"></label><button class="button" id="saveRecipe">Save recipe</button></div>
   </section>
@@ -68,50 +69,67 @@
 </main>
 <script>
   const $=id=>document.getElementById(id);
-  const manualIds=['style','pizzas','diameter','thickness','lossPct','hydration','saltPct','yeastPct','oilPct','flour','primaryPct','secondary','secondaryPct','usePoolish','poolishPct','poolishHydration','poolishYeast','poolishTemp','poolishHours','storageTemp','bakeTime','extraDay','oven','pizzaOvenTemp','homeOvenTemp'];
+  const manualIds=['style','pizzas','diameter','thickness','lossPct','hydration','saltPct','yeastPct','oilPct','flour','primaryPct','secondary','secondaryPct','usePoolish','poolishPct','poolishHydration','poolishYeast','poolishTemp','poolishHours','tempUnit','storageTemp','bakeTime','extraDay','oven','pizzaOvenTemp','homeOvenTemp'];
   const controls=document.querySelectorAll('input,select');
+  const tempInputs=['poolishTemp','storageTemp','pizzaOvenTemp','homeOvenTemp'];
+  const tempLabels={F:['Temp °F','Storage temp °F','Pizza oven °F','Home oven °F'],C:['Temp °C','Storage temp °C','Pizza oven °C','Home oven °C']};
+  const favKey='doughwrite-favorites-v3';
   const grams=n=>`${n.toFixed(1)}g`;
-  const favKey='doughwrite-favorites-v2';
+  const fToC=f=>(f-32)*5/9;
+  const cToF=c=>c*9/5+32;
+  const fmtTemp=n=>Math.round(n*10)/10;
   const tomorrow=new Date(); tomorrow.setDate(tomorrow.getDate()+1); tomorrow.setHours(18,0,0,0);
   $('bakeTime').value=new Date(tomorrow-tomorrow.getTimezoneOffset()*60000).toISOString().slice(0,16);
 
   function getManual(){const out={};manualIds.forEach(id=>{const el=$(id);out[id]=el.type==='checkbox'?el.checked:el.value});return out}
-  function setManual(data){manualIds.forEach(id=>{if(data[id]===undefined)return;const el=$(id);if(el.type==='checkbox')el.checked=!!data[id];else el.value=data[id]});calculate()}
+  function setManual(data){manualIds.forEach(id=>{if(data[id]===undefined)return;const el=$(id);if(el.type==='checkbox')el.checked=!!data[id];else el.value=data[id]});updateTemperatureLabels();calculate()}
   function favorites(){try{return JSON.parse(localStorage.getItem(favKey)||'[]')}catch{return[]}}
   function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-  function renderFavorites(){const list=favorites(),root=$('favorites');if(!list.length){root.innerHTML='<p class="empty">No saved recipes yet.</p>';return}root.innerHTML=list.map(f=>`<article class="favorite"><strong>${esc(f.name)}</strong><p>${f.data.style} · ${f.data.pizzas} pizzas · ${f.data.diameter} in · ${f.data.hydration}% hydration</p><button class="small load" data-load="${f.id}">Load</button><button class="small delete" data-delete="${f.id}">Delete</button></article>`).join('')}
+  function renderFavorites(){const list=favorites(),root=$('favorites');if(!list.length){root.innerHTML='<p class="empty">No saved recipes yet.</p>';return}root.innerHTML=list.map(f=>`<article class="favorite"><strong>${esc(f.name)}</strong><p>${f.data.style} · ${f.data.pizzas} pizzas · ${f.data.diameter} in · ${f.data.hydration}% hydration · ${f.data.tempUnit||'F'}°</p><button class="small load" data-load="${f.id}">Load</button><button class="small delete" data-delete="${f.id}">Delete</button></article>`).join('')}
   $('saveRecipe').addEventListener('click',()=>{const name=$('recipeName').value.trim()||`${$('style').value} ${$('diameter').value}-inch`;const list=favorites();list.unshift({id:Date.now(),name,data:getManual()});localStorage.setItem(favKey,JSON.stringify(list));$('recipeName').value='';renderFavorites();document.querySelectorAll('.accordion')[6].open=true});
   $('favorites').addEventListener('click',e=>{const id=+e.target.dataset.load||+e.target.dataset.delete;if(!id)return;const list=favorites();if(e.target.dataset.load){const found=list.find(f=>f.id===id);if(found)setManual(found.data)}else{localStorage.setItem(favKey,JSON.stringify(list.filter(f=>f.id!==id)));renderFavorites()}});
+
+  function updateTemperatureLabels(){
+    const unit=$('tempUnit').value;
+    document.querySelectorAll('[data-temp-label]').forEach((label,i)=>label.textContent=tempLabels[unit][i]);
+    const ranges=unit==='F'?[[35,90],[32,75],[500,1000],[400,600]]:[[2,32],[0,24],[260,540],[205,315]];
+    tempInputs.forEach((id,i)=>{$(id).min=ranges[i][0];$(id).max=ranges[i][1]});
+  }
+
+  function switchTemperatureUnit(){
+    const oldUnit=$('tempUnit').dataset.previous||'F';
+    const newUnit=$('tempUnit').value;
+    if(oldUnit===newUnit)return;
+    tempInputs.forEach(id=>{const value=+$(''+id).value;if(!Number.isFinite(value))return;$(''+id).value=fmtTemp(newUnit==='C'?fToC(value):cToF(value))});
+    $('tempUnit').dataset.previous=newUnit;
+    updateTemperatureLabels();
+    calculate();
+  }
+
+  function toF(value){return $('tempUnit').value==='C'?cToF(value):value}
+  function displayTemp(f){return $('tempUnit').value==='C'?`${Math.round(fToC(f))}°C`:`${Math.round(f)}°F`}
 
   function calculate(){
     const pizzas=Math.max(1,+$('pizzas').value||1),diameter=Math.max(8,+$('diameter').value||15),thickness=Math.max(.05,Math.min(.13,+$('thickness').value||.065));
     const lossPct=Math.max(0,+$('lossPct').value||0)/100,hydration=(+$('hydration').value||68)/100,saltPct=(+$('saltPct').value||0)/100,yeastPct=(+$('yeastPct').value||0)/100,oilPct=(+$('oilPct').value||0)/100;
     $('blend').textContent=`Blend: ${+$('primaryPct').value||0}% ${$('flour').value} + ${+$('secondaryPct').value||0}% ${$('secondary').value}`;
-
-    // 37 is calibrated so a 15-inch pie at a 0.065 thin-crust factor is about 425 g.
     const usablePerBall=Math.max(150,Math.PI*(diameter/2)**2*thickness*37);
-    const usableTotal=usablePerBall*pizzas;
-    const mixedTotal=usableTotal*(1+lossPct);
-    const mixedPerBall=mixedTotal/pizzas;
+    const usableTotal=usablePerBall*pizzas,mixedTotal=usableTotal*(1+lossPct),mixedPerBall=mixedTotal/pizzas;
     const flour=mixedTotal/(1+hydration+saltPct+yeastPct+oilPct),water=flour*hydration,salt=flour*saltPct,yeast=flour*yeastPct,oil=flour*oilPct;
-
-    $('totalDough').textContent=`${Math.round(mixedTotal)}g`;
-    $('perBall').textContent=`${Math.round(mixedPerBall)}g`;
-    $('baseDough').textContent=`${Math.round(usablePerBall)}g`;
+    $('totalDough').textContent=`${Math.round(mixedTotal)}g`;$('perBall').textContent=`${Math.round(mixedPerBall)}g`;$('baseDough').textContent=`${Math.round(usablePerBall)}g`;
     $('lossNote').textContent=`Target: ${Math.round(usablePerBall)}g usable dough per pie. The batch includes ${Math.round(lossPct*100)}% handling allowance (${Math.round(mixedTotal-usableTotal)}g total) for dough left on the bowl, bench, scraper, and hands.`;
     $('ingredients').innerHTML=[['Flour',flour],['Water',water],['Salt',salt],['ADY yeast',yeast],['Oil',oil]].map(([n,v])=>`<tr><td>${n}</td><td>${grams(v)}</td></tr>`).join('');
-
     const poolishOn=$('usePoolish').checked,pPct=(+$('poolishPct').value||0)/100,pHydration=(+$('poolishHydration').value||100)/100,pYeastPct=(+$('poolishYeast').value||0)/100,pFlour=poolishOn?flour*pPct:0,pWater=pFlour*pHydration,pYeast=pFlour*pYeastPct,finalFlour=flour-pFlour,finalWater=water-pWater;
     $('poolishText').textContent=poolishOn?`Poolish: ${grams(pFlour)} flour, ${grams(pWater)} water, ${grams(pYeast)} ADY yeast. Final dough: ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, ${grams(oil)} oil.`:'Poolish is off. Mix all ingredients together for the final dough.';
-
-    const storage=+$('storageTemp').value||40,poolishHours=+$('poolishHours').value||14,bake=new Date($('bakeTime').value),extraHours=$('extraDay').checked?24:0,finalHours=Math.max(2,(bake-new Date())/3600000-poolishHours-extraHours),pizzaOven=$('oven').value==='Pizza Oven',bakeTemp=pizzaOven?(+$('pizzaOvenTemp').value||750):(+$('homeOvenTemp').value||550),bakeDuration=pizzaOven?'2–4 minutes':'7–10 minutes',preheat=pizzaOven?25:45,start=new Date(bake-(poolishHours+finalHours+extraHours)*3600000),mix=new Date(start.getTime()+poolishHours*3600000),format=d=>d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
-    $('schedule').innerHTML=`<strong>Poolish start:</strong> ${format(start)}<br><strong>Final dough mix:</strong> ${format(mix)}<br><strong>Final fermentation:</strong> about ${finalHours.toFixed(1)} hours at ${storage}°F${extraHours?' plus an extra fridge day':''}.<br><strong>Preheat:</strong> ${preheat} minutes before baking. ${bakeTemp}°F ${$('oven').value.toLowerCase()}: ${bakeDuration}.`;
-
-    const steps=[poolishOn&&['Make the poolish',`About ${poolishHours} hours before final mixing, combine ${grams(pFlour)} flour, ${grams(pWater)} water, and ${grams(pYeast)} ADY yeast. Cover loosely and ferment at ${$('poolishTemp').value}°F until bubbly and expanded.`],['Mix the final dough',poolishOn?`Combine the ripe poolish with ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, and ${grams(oil)} oil. Mix until no dry flour remains.`:`Combine ${grams(flour)} flour, ${grams(water)} water, ${grams(salt)} salt, ${grams(yeast)} ADY yeast, and ${grams(oil)} oil. Mix until no dry flour remains.`],['Rest and develop','Cover and rest for 20 minutes. Knead or use stretch-and-folds until the dough is smooth, elastic, and cohesive.'],['Divide and ball',`Divide into ${pizzas} portions of about ${Math.round(mixedPerBall)} g. After the ${Math.round(lossPct*100)}% handling allowance, each should provide about ${Math.round(usablePerBall)} g for a ${diameter}-inch pizza.`],['Cold ferment',`Refrigerate at ${storage}°F for about ${finalHours.toFixed(1)} hours${extraHours?', then hold one additional day':''}. The dough should become airy and relaxed.`],['Open the dough',`Let the dough lose its chill if it feels tight. Gently press and stretch each ball to ${diameter} inches; do not use a rolling pin.`],['Top and bake',`Use a light layer of sauce. Bake at ${bakeTemp}°F in the ${$('oven').value.toLowerCase()} for ${bakeDuration}, rotating as needed for even browning.`]].filter(Boolean);
+    const storageF=toF(+$('storageTemp').value||40),poolishTempF=toF(+$('poolishTemp').value||70),poolishHours=+$('poolishHours').value||14,bake=new Date($('bakeTime').value),extraHours=$('extraDay').checked?24:0,finalHours=Math.max(2,(bake-new Date())/3600000-poolishHours-extraHours),pizzaOven=$('oven').value==='Pizza Oven',bakeTempF=pizzaOven?toF(+$('pizzaOvenTemp').value||750):toF(+$('homeOvenTemp').value||550),bakeDuration=pizzaOven?'2–4 minutes':'7–10 minutes',preheat=pizzaOven?25:45,start=new Date(bake-(poolishHours+finalHours+extraHours)*3600000),mix=new Date(start.getTime()+poolishHours*3600000),format=d=>d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+    $('schedule').innerHTML=`<strong>Poolish start:</strong> ${format(start)}<br><strong>Final dough mix:</strong> ${format(mix)}<br><strong>Final fermentation:</strong> about ${finalHours.toFixed(1)} hours at ${displayTemp(storageF)}${extraHours?' plus an extra fridge day':''}.<br><strong>Preheat:</strong> ${preheat} minutes before baking. ${displayTemp(bakeTempF)} ${$('oven').value.toLowerCase()}: ${bakeDuration}.`;
+    const steps=[poolishOn&&['Make the poolish',`About ${poolishHours} hours before final mixing, combine ${grams(pFlour)} flour, ${grams(pWater)} water, and ${grams(pYeast)} ADY yeast. Cover loosely and ferment at ${displayTemp(poolishTempF)} until bubbly and expanded.`],['Mix the final dough',poolishOn?`Combine the ripe poolish with ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, and ${grams(oil)} oil. Mix until no dry flour remains.`:`Combine ${grams(flour)} flour, ${grams(water)} water, ${grams(salt)} salt, ${grams(yeast)} ADY yeast, and ${grams(oil)} oil. Mix until no dry flour remains.`],['Rest and develop','Cover and rest for 20 minutes. Knead or use stretch-and-folds until the dough is smooth, elastic, and cohesive.'],['Divide and ball',`Divide into ${pizzas} portions of about ${Math.round(mixedPerBall)} g. After the ${Math.round(lossPct*100)}% handling allowance, each should provide about ${Math.round(usablePerBall)} g for a ${diameter}-inch pizza.`],['Cold ferment',`Refrigerate at ${displayTemp(storageF)} for about ${finalHours.toFixed(1)} hours${extraHours?', then hold one additional day':''}. The dough should become airy and relaxed.`],['Open the dough',`Let the dough lose its chill if it feels tight. Gently press and stretch each ball to ${diameter} inches; do not use a rolling pin.`],['Top and bake',`Use a light layer of sauce. Bake at ${displayTemp(bakeTempF)} in the ${$('oven').value.toLowerCase()} for ${bakeDuration}, rotating as needed for even browning.`]].filter(Boolean);
     $('recipeSteps').innerHTML=steps.map(([title,text],i)=>`<article class="step"><span class="number">${i+1}</span><div><h3>${title}</h3><p>${text}</p></div></article>`).join('');
   }
-  controls.forEach(el=>el.addEventListener('input',calculate));
-  calculate();renderFavorites();
+  $('tempUnit').dataset.previous='F';
+  $('tempUnit').addEventListener('change',switchTemperatureUnit);
+  controls.forEach(el=>{if(el.id!=='tempUnit')el.addEventListener('input',calculate)});
+  updateTemperatureLabels();calculate();renderFavorites();
 </script>
 </body>
 </html>
