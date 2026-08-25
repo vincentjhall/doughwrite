@@ -2,15 +2,161 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#70391b">
-  <meta name="description" content="Doughwrite precision pizza dough calculator and bake planner.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f7efe5">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Doughwrite">
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="apple-touch-icon" href="icon-192.png">
   <title>Doughwrite</title>
+  <style>
+    :root { --ink:#2d170d; --brown:#73391d; --orange:#e56d18; --cream:#fffaf3; --paper:#f8f0e7; --line:#dfc2aa; --green:#ecf5e8; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--paper); color:var(--ink); font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { width:min(1120px,100%); margin:auto; padding:28px 20px 72px; }
+    header { border-bottom:7px solid var(--orange); padding:8px 0 26px; margin-bottom:34px; }
+    h1,h2,h3 { font-family:Georgia,"Times New Roman",serif; }
+    h1 { font-size:clamp(2.75rem,7vw,4.8rem); margin:0; color:var(--brown); letter-spacing:-.04em; }
+    h1 span { color:var(--orange); }
+    header p { font-size:clamp(1.05rem,2vw,1.5rem); margin:12px 0 0; color:#6d5d53; }
+    h2 { font-size:clamp(2rem,4vw,2.8rem); margin:0 0 22px; }
+    section { margin-top:42px; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px 20px; }
+    label { display:block; font-weight:800; color:var(--brown); font-size:1.02rem; }
+    input,select { width:100%; margin-top:8px; border:2px solid var(--line); border-radius:12px; background:var(--cream); padding:14px 15px; color:var(--ink); font:700 1.08rem ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    input:focus,select:focus { outline:3px solid #f1b275; border-color:var(--orange); }
+    .blend { color:#77675e; font-size:1.08rem; margin:22px 0 0; }
+    .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .stat { border:2px solid var(--line); background:#fff5ea; border-radius:15px; text-align:center; padding:26px 12px; }
+    .stat strong { display:block; font:800 clamp(2rem,4vw,3.1rem) Georgia,serif; color:var(--orange); }
+    .stat span { display:block; margin-top:8px; color:#75645a; font-weight:800; font-size:.82rem; letter-spacing:.07em; }
+    table { width:100%; border-collapse:collapse; font-size:1.12rem; }
+    th,td { text-align:left; padding:14px 6px; border-bottom:2px solid var(--line); }
+    th { color:var(--brown); font-size:1.2rem; }
+    .notice { background:var(--green); border-radius:12px; padding:16px; line-height:1.55; color:#67452e; margin-top:18px; }
+    .timeline { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px 20px; }
+    .full { grid-column:1/-1; }
+    .callout { margin-top:18px; border-left:7px solid var(--orange); background:#fff4e7; padding:14px 16px; font-size:1.1rem; line-height:1.55; }
+    .steps { border-top:6px solid var(--orange); padding-top:30px; }
+    .step { display:grid; grid-template-columns:42px 1fr; gap:14px; padding:18px 0; border-bottom:1px solid var(--line); }
+    .number { width:34px; height:34px; border-radius:50%; display:grid; place-items:center; background:var(--orange); color:white; font-weight:900; }
+    .step h3 { margin:2px 0 8px; font-size:1.4rem; color:var(--brown); }
+    .step p { margin:0; line-height:1.62; font-size:1.04rem; }
+    .sauce { background:#fff4e7; border-radius:16px; padding:22px; }
+    .sauce p { line-height:1.65; font-size:1.08rem; }
+    button { margin-top:26px; border:0; border-radius:12px; background:var(--orange); color:#fff; padding:15px 20px; font-weight:900; font-size:1rem; cursor:pointer; }
+    @media (max-width:700px) { main { padding:22px 16px 52px; } .grid,.timeline { grid-template-columns:1fr; gap:14px; } .stats { grid-template-columns:1fr; gap:12px; } .stat { padding:19px 12px; } h2 { margin-bottom:16px; } section { margin-top:34px; } }
+    @media print { body { background:#fff; } main { width:auto; padding:24px; } button { display:none; } section { break-inside:avoid; } }
+  </style>
 </head>
 <body>
-  <main id="app"></main>
-  <script src="app.js"></script>
-</body>
-</html>
+  <main>
+    <header>
+      <h1>Dough<span>write</span></h1>
+      <p>Precision pizza dough, from formula to fire.</p>
+    </header>
+
+    <section>
+      <h2>Formula</h2>
+      <div class="grid">
+        <label>Style<select id="style"><option>New York</option><option>Neapolitan</option><option>Sicilian</option></select></label>
+        <label>Pizzas<input id="pizzas" type="number" min="1" value="3"></label>
+        <label>Diameter (in)<input id="diameter" type="number" min="8" max="20" value="16"></label>
+        <label>Hydration %<input id="hydration" type="number" min="50" max="85" step="0.5" value="68"></label>
+        <label>Salt %<input id="saltPct" type="number" min="0" max="5" step="0.1" value="1.5"></label>
+        <label>ADY yeast %<input id="yeastPct" type="number" min="0" max="2" step="0.01" value="0.25"></label>
+        <label>Oil %<input id="oilPct" type="number" min="0" max="10" step="0.1" value="2.5"></label>
+        <label>Primary flour<select id="flour"><option>Bread Flour</option><option>00 Pizza Flour</option><option>All-purpose Flour</option></select></label>
+        <label>Primary %<input id="primaryPct" type="number" min="0" max="100" value="100"></label>
+        <label>Secondary flour<select id="secondary"><option>00 Pizza Flour</option><option>Bread Flour</option><option>All-purpose Flour</option></select></label>
+        <label>Secondary %<input id="secondaryPct" type="number" min="0" max="100" value="0"></label>
+      </div>
+      <p class="blend" id="blend">Blend: 100% Bread Flour + 0% 00 Pizza Flour</p>
+    </section>
+
+    <section>
+      <h2>Dough results</h2>
+      <div class="stats">
+        <div class="stat"><strong id="totalDough">1282g</strong><span>TOTAL DOUGH</span></div>
+        <div class="stat"><strong id="perBall">427g</strong><span>PER BALL</span></div>
+        <div class="stat"><strong id="hydrationResult">68%</strong><span>HYDRATION</span></div>
+      </div>
+    </section>
+
+    <section>
+      <table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody id="ingredients"></tbody></table>
+    </section>
+
+    <section>
+      <h2>Poolish</h2>
+      <div class="timeline">
+        <label><input id="usePoolish" type="checkbox" checked style="width:auto; margin-right:8px;">Use poolish</label>
+        <label>Flour %<input id="poolishPct" type="number" min="0" max="60" value="30"></label>
+        <label>Hydration %<input id="poolishHydration" type="number" min="50" max="125" value="100"></label>
+        <label>Yeast %<input id="poolishYeast" type="number" min="0" max="1" step="0.01" value="0.15"></label>
+        <label>Temp °F<input id="poolishTemp" type="number" min="35" max="90" value="70"></label>
+        <label>Hours<input id="poolishHours" type="number" min="1" max="30" value="14"></label>
+      </div>
+      <div class="notice" id="poolishText"></div>
+    </section>
+
+    <section>
+      <h2>Timeline &amp; oven</h2>
+      <div class="timeline">
+        <label>Storage temp °F<input id="storageTemp" type="number" min="32" max="75" value="40"></label>
+        <label>Bake date/time<input id="bakeTime" type="datetime-local"></label>
+        <label><input id="extraDay" type="checkbox" style="width:auto; margin-right:8px;">Hold another fridge day</label>
+        <label>Oven<select id="oven"><option>Pizza Oven</option><option>Home Oven</option></select></label>
+        <label>Pizza oven °F<input id="pizzaOvenTemp" type="number" min="500" max="1000" value="750"></label>
+        <label>Home oven °F<input id="homeOvenTemp" type="number" min="400" max="600" value="550"></label>
+      </div>
+      <div class="callout" id="schedule"></div>
+    </section>
+
+    <section class="steps">
+      <h2>Recipe steps</h2>
+      <p class="blend">Your quantities and timeline update as you change the formula.</p>
+      <div id="recipeSteps"></div>
+    </section>
+
+    <section class="sauce">
+      <h2>Sauce</h2>
+      <p><strong>14 oz Italian tomatoes</strong> · 3 Tbsp extra-virgin olive oil · ½ tsp sea salt · 2 basil leaves · pinch dried oregano · 1 fresh garlic clove.</p>
+      <p>Crush tomatoes, mix in remaining ingredients, taste for salt, and use a light layer on each pizza.</p>
+    </section>
+
+    <button onclick="window.print()">Print recipe</button>
+  </main>
+
+  <script>
+    const $ = id => document.getElementById(id);
+    const controls = document.querySelectorAll('input, select');
+    const grams = n => `${n.toFixed(1)}g`;
+    const now = new Date();
+    now.setDate(now.getDate() + 1); now.setHours(10, 5, 0, 0);
+    $('bakeTime').value = new Date(now - now.getTimezoneOffset() * 60000).toISOString().slice(0,16);
+
+    function calculate() {
+      const pizzas = Math.max(1, +$('pizzas').value || 1);
+      const diameter = Math.max(8, +$('diameter').value || 16);
+      const hydration = (+$('hydration').value || 68) / 100;
+      const saltPct = (+$('saltPct').value || 0) / 100;
+      const yeastPct = (+$('yeastPct').value || 0) / 100;
+      const oilPct = (+$('oilPct').value || 0) / 100;
+      const primary = +$('primaryPct').value || 0;
+      const secondary = +$('secondaryPct').value || 0;
+      $('blend').textContent = `Blend: ${primary}% ${$('flour').value} + ${secondary}% ${$('secondary').value}`;
+
+      const perBall = Math.max(180, Math.PI * (diameter / 2) ** 2 * 2.12);
+      const total = perBall * pizzas;
+      const flour = total / (1 + hydration + saltPct + yeastPct + oilPct);
+      const water = flour * hydration, salt = flour * saltPct, yeast = flour * yeastPct, oil = flour * oilPct;
+      $('totalDough').textContent = `${Math.round(total)}g`;
+      $('perBall').textContent = `${Math.round(perBall)}g`;
+      $('hydrationResult').textContent = `${Math.round(hydration * 100)}%`;
+      $('ingredients').innerHTML = [['Flour',flour],['Water',water],['Salt',salt],['ADY yeast',yeast],['Oil',oil]].map(([n,v]) => `<tr><td>${n}</td><td>${grams(v)}</td></tr>`).join('');
+
+      const poolishOn = $('usePoolish').checked;
+      const pPct = (+$('poolishPct').value || 0) / 100;
+      const pHydration = (+$('poo
