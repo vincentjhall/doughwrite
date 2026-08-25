@@ -1,78 +1,117 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f8f0e7">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Doughwrite">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-192.png">
-<title>Doughwrite</title>
-<style>
-:root{--ink:#2d170d;--brown:#73391d;--orange:#e56d18;--cream:#fffaf3;--paper:#f8f0e7;--line:#dfc2aa;--green:#edf7e8;--muted:#76655a}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{width:min(760px,100%);margin:auto;padding:24px 16px 56px}header{border-bottom:6px solid var(--orange);padding:4px 0 22px;margin-bottom:28px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif}h1{margin:0;font-size:clamp(2.6rem,11vw,4.4rem);letter-spacing:-.05em;color:var(--brown)}h1 span{color:var(--orange)}header p{margin:9px 0 0;color:var(--muted);font-size:1.15rem}h2{font-size:clamp(1.9rem,7vw,2.45rem);margin:0 0 16px;color:var(--ink)}section{margin-top:30px}.input-card,.panel{background:var(--cream);border:2px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}label{display:block;color:var(--brown);font-weight:800;font-size:.98rem}input,select{display:block;width:100%;margin-top:7px;padding:12px;border:2px solid var(--line);border-radius:10px;background:#fffdf9;color:var(--ink);font:700 1rem ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wide{grid-column:1/-1}.check{display:flex;align-items:center;gap:9px;padding-top:8px}.check input{width:auto;margin:0}.help{margin:6px 0 0;color:var(--muted);font-size:.82rem;font-weight:500;line-height:1.35}.blend{margin:16px 0 0;color:var(--muted);line-height:1.45}.save-row{display:flex;gap:10px;align-items:end;margin-top:18px}.save-row label{flex:1}.button{border:0;border-radius:11px;background:var(--orange);color:#fff;padding:13px 16px;font-size:1rem;font-weight:900;cursor:pointer;white-space:nowrap}.accordion{margin-top:14px}.accordion summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border:2px solid var(--line);border-radius:13px;background:var(--cream);padding:14px 15px;font-size:1.04rem;font-weight:900;color:var(--brown)}.accordion summary::-webkit-details-marker{display:none}.accordion summary:after{content:"+";font-size:1.4rem;color:var(--orange)}.accordion[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0}.accordion[open] summary:after{content:"−"}.panel{border-top:0;border-top-left-radius:0;border-top-right-radius:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border:2px solid var(--line);background:#fff5ea;border-radius:12px;text-align:center;padding:17px 8px}.stat strong{display:block;color:var(--orange);font:800 clamp(1.55rem,7vw,2.3rem) Georgia,serif}.stat span{display:block;color:var(--muted);font-size:.7rem;font-weight:900;letter-spacing:.05em;margin-top:5px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 4px;border-bottom:1px solid var(--line)}th{color:var(--brown)}.notice{background:var(--green);border-radius:11px;padding:14px;line-height:1.55;color:#5b452f}.callout{border-left:6px solid var(--orange);background:#fff4e7;padding:14px;line-height:1.6}.step{display:grid;grid-template-columns:35px 1fr;gap:11px;padding:15px 0;border-bottom:1px solid var(--line)}.number{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--orange);color:#fff;font-weight:900}.step h3{margin:1px 0 5px;color:var(--brown);font-size:1.2rem}.step p{margin:0;line-height:1.52}.favorite{border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:9px;background:#fffdf9}.favorite strong{display:block;color:var(--brown);font-family:Georgia,"Times New Roman",serif;font-size:1.13rem}.favorite p{margin:5px 0 10px;color:var(--muted);font-size:.88rem}.small{border:0;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;margin-right:7px}.load{background:#e56d18;color:#fff}.delete{background:#f2dcd2;color:#77351a}.empty{margin:0;color:var(--muted);text-align:center;padding:10px}.sauce p{line-height:1.6}@media(max-width:480px){main{padding:20px 14px 48px}.grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr}.save-row{align-items:stretch;flex-direction:column}.button{width:100%}}@media print{.save-row,.accordion summary{display:none}.accordion{display:block}.accordion .panel{display:block!important;border:1px solid var(--line);border-radius:12px;margin:10px 0}main{width:auto}.input-card{border:0;padding:0}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f0e7">
+  <title>Doughwrite</title>
+  <style>
+    :root{--ink:#2d170d;--brown:#73391d;--orange:#e56d18;--cream:#fffaf3;--paper:#f8f0e7;--line:#dfc2aa;--green:#edf7e8;--muted:#76655a}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{width:min(760px,100%);margin:auto;padding:24px 16px 56px}header{border-bottom:6px solid var(--orange);padding:4px 0 22px;margin-bottom:28px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif}h1{margin:0;font-size:clamp(2.6rem,11vw,4.4rem);letter-spacing:-.05em;color:var(--brown)}h1 span{color:var(--orange)}header p{margin:9px 0 0;color:var(--muted);font-size:1.15rem}h2{font-size:clamp(1.9rem,7vw,2.45rem);margin:0 0 16px;color:var(--ink)}section{margin-top:30px}.input-card,.panel{background:var(--cream);border:2px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}label{display:block;color:var(--brown);font-weight:800;font-size:.98rem}input,select{display:block;width:100%;margin-top:7px;padding:12px;border:2px solid var(--line);border-radius:10px;background:#fffdf9;color:var(--ink);font:700 1rem ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wide{grid-column:1/-1}.check{display:flex;align-items:center;gap:9px;padding-top:8px}.check input{width:auto;margin:0}.help{margin:6px 0 0;color:var(--muted);font-size:.82rem;font-weight:500;line-height:1.35}.blend{margin:16px 0 0;color:var(--muted);line-height:1.45}.save-row{display:flex;gap:10px;align-items:end;margin-top:18px}.save-row label{flex:1}.button{border:0;border-radius:11px;background:var(--orange);color:#fff;padding:13px 16px;font-size:1rem;font-weight:900;cursor:pointer;white-space:nowrap}.accordion{margin-top:14px}.accordion summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border:2px solid var(--line);border-radius:13px;background:var(--cream);padding:14px 15px;font-size:1.04rem;font-weight:900;color:var(--brown)}.accordion summary::-webkit-details-marker{display:none}.accordion summary:after{content:"+";font-size:1.4rem;color:var(--orange)}.accordion[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0}.accordion[open] summary:after{content:"−"}.panel{border-top:0;border-top-left-radius:0;border-top-right-radius:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border:2px solid var(--line);background:#fff5ea;border-radius:12px;text-align:center;padding:17px 8px}.stat strong{display:block;color:var(--orange);font:800 clamp(1.55rem,7vw,2.3rem) Georgia,serif}.stat span{display:block;color:var(--muted);font-size:.7rem;font-weight:900;letter-spacing:.05em;margin-top:5px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 4px;border-bottom:1px solid var(--line)}th{color:var(--brown)}.notice{background:var(--green);border-radius:11px;padding:14px;line-height:1.55;color:#5b452f}.callout{border-left:6px solid var(--orange);background:#fff4e7;padding:14px;line-height:1.6}.step{display:grid;grid-template-columns:35px 1fr;gap:11px;padding:15px 0;border-bottom:1px solid var(--line)}.number{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--orange);color:#fff;font-weight:900}.step h3{margin:1px 0 5px;color:var(--brown);font-size:1.2rem}.step p{margin:0;line-height:1.52}.favorite{border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:9px;background:#fffdf9}.favorite strong{display:block;color:var(--brown);font-family:Georgia,"Times New Roman",serif;font-size:1.13rem}.favorite p{margin:5px 0 10px;color:var(--muted);font-size:.88rem}.small{border:0;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;margin-right:7px}.load{background:#e56d18;color:#fff}.delete{background:#f2dcd2;color:#77351a}.empty{margin:0;color:var(--muted);text-align:center;padding:10px}.sauce p{line-height:1.6}@media(max-width:480px){main{padding:20px 14px 48px}.grid,.stats{grid-template-columns:1fr}.save-row{align-items:stretch;flex-direction:column}.button{width:100%}}
+  </style>
 </head>
 <body>
 <main>
-<header><h1>Dough<span>write</span></h1><p>Precision pizza dough, from formula to fire.</p></header>
-<section class="input-card">
-<h2>Formula</h2>
-<div class="grid">
-<label>Style<select id="style"><option>New York</option><option>Neapolitan</option><option>Sicilian</option></select></label>
-<label>Pizzas<input id="pizzas" type="number" min="1" value="3"></label>
-<label>Diameter (in)<input id="diameter" type="number" min="8" max="20" value="16"></label>
-<label>Thickness factor<input id="thickness" type="number" min="0.050" max="0.130" step="0.005" value="0.075"><p class="help">Thin 0.065 · Medium 0.075 · Thick 0.100</p></label>
-<label>Hydration %<input id="hydration" type="number" min="50" max="85" step="0.5" value="68"></label>
-<label>Salt %<input id="saltPct" type="number" min="0" max="5" step="0.1" value="1.5"></label>
-<label>ADY yeast %<input id="yeastPct" type="number" min="0" max="2" step="0.01" value="0.25"></label>
-<label>Oil %<input id="oilPct" type="number" min="0" max="10" step="0.1" value="2.5"></label>
-<label>Primary flour<select id="flour"><option>Bread Flour</option><option>00 Pizza Flour</option><option>All-purpose Flour</option></select></label>
-<label>Primary %<input id="primaryPct" type="number" min="0" max="100" value="100"></label>
-<label>Secondary flour<select id="secondary"><option>00 Pizza Flour</option><option>Bread Flour</option><option>All-purpose Flour</option></select></label>
-<label>Secondary %<input id="secondaryPct" type="number" min="0" max="100" value="0"></label>
-</div><p class="blend" id="blend"></p>
-</section>
-<section class="input-card">
-<h2>Poolish</h2><div class="grid">
-<label class="check wide"><input id="usePoolish" type="checkbox" checked>Use poolish</label>
-<label>Flour %<input id="poolishPct" type="number" min="0" max="60" value="30"></label>
-<label>Hydration %<input id="poolishHydration" type="number" min="50" max="125" value="100"></label>
-<label>Yeast %<input id="poolishYeast" type="number" min="0" max="1" step="0.01" value="0.15"></label>
-<label>Temp °F<input id="poolishTemp" type="number" min="35" max="90" value="70"></label>
-<label>Hours<input id="poolishHours" type="number" min="1" max="30" value="14"></label>
-</div></section>
-<section class="input-card">
-<h2>Timeline &amp; oven</h2><div class="grid">
-<label>Storage temp °F<input id="storageTemp" type="number" min="32" max="75" value="40"></label>
-<label>Bake date/time<input id="bakeTime" type="datetime-local"></label>
-<label class="check wide"><input id="extraDay" type="checkbox">Hold another fridge day</label>
-<label>Oven<select id="oven"><option>Pizza Oven</option><option>Home Oven</option></select></label>
-<label>Pizza oven °F<input id="pizzaOvenTemp" type="number" min="500" max="1000" value="750"></label>
-<label>Home oven °F<input id="homeOvenTemp" type="number" min="400" max="600" value="550"></label>
-</div>
-<div class="save-row"><label>Recipe name<input id="recipeName" type="text" placeholder="Example: Friday NY 16-inch"></label><button class="button" id="saveRecipe">Save recipe</button></div>
-</section>
-<details class="accordion"><summary>Dough results</summary><div class="panel"><div class="stats"><div class="stat"><strong id="totalDough"></strong><span>TOTAL DOUGH</span></div><div class="stat"><strong id="perBall"></strong><span>PER BALL</span></div><div class="stat"><strong id="hydrationResult"></strong><span>HYDRATION</span></div></div></div></details>
-<details class="accordion"><summary>Ingredient amounts</summary><div class="panel"><table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody id="ingredients"></tbody></table></div></details>
-<details class="accordion"><summary>Poolish breakdown</summary><div class="panel"><div class="notice" id="poolishText"></div></div></details>
-<details class="accordion"><summary>Bake timeline</summary><div class="panel"><div class="callout" id="schedule"></div></div></details>
-<details class="accordion"><summary>Recipe steps</summary><div class="panel"><div id="recipeSteps"></div></div></details>
-<details class="accordion"><summary>Sauce recipe</summary><div class="panel sauce"><h2>Sauce</h2><p><strong>14 oz Italian tomatoes</strong> · 3 Tbsp extra-virgin olive oil · ½ tsp sea salt · 2 basil leaves · pinch dried oregano · 1 fresh garlic clove.</p><p>Crush tomatoes, mix in remaining ingredients, taste for salt, and use a light layer on each pizza.</p></div></details>
-<details class="accordion"><summary>Saved recipes</summary><div class="panel"><div id="favorites"></div></div></details>
+  <header><h1>Dough<span>write</span></h1><p>Precision pizza dough, from formula to fire.</p></header>
+
+  <section class="input-card">
+    <h2>Formula</h2>
+    <div class="grid">
+      <label>Style<select id="style"><option>New York</option><option>Neapolitan</option><option>Sicilian</option></select></label>
+      <label>Pizzas<input id="pizzas" type="number" min="1" value="3"></label>
+      <label>Diameter (in)<input id="diameter" type="number" min="8" max="20" value="15"></label>
+      <label>Thickness factor<input id="thickness" type="number" min="0.050" max="0.130" step="0.005" value="0.065"><p class="help">Thin 0.065 · Medium 0.075 · Thick 0.100</p></label>
+      <label>Handling loss %<input id="lossPct" type="number" min="0" max="20" step="0.5" value="5"><p class="help">Extra dough for bowl, bench, scraper, and flour loss.</p></label>
+      <label>Hydration %<input id="hydration" type="number" min="50" max="85" step="0.5" value="68"></label>
+      <label>Salt %<input id="saltPct" type="number" min="0" max="5" step="0.1" value="1.5"></label>
+      <label>ADY yeast %<input id="yeastPct" type="number" min="0" max="2" step="0.01" value="0.25"></label>
+      <label>Oil %<input id="oilPct" type="number" min="0" max="10" step="0.1" value="2.5"></label>
+      <label>Primary flour<select id="flour"><option>Bread Flour</option><option>00 Pizza Flour</option><option>All-purpose Flour</option></select></label>
+      <label>Primary %<input id="primaryPct" type="number" min="0" max="100" value="100"></label>
+      <label>Secondary flour<select id="secondary"><option>00 Pizza Flour</option><option>Bread Flour</option><option>All-purpose Flour</option></select></label>
+      <label>Secondary %<input id="secondaryPct" type="number" min="0" max="100" value="0"></label>
+    </div>
+    <p class="blend" id="blend"></p>
+  </section>
+
+  <section class="input-card">
+    <h2>Poolish</h2>
+    <div class="grid">
+      <label class="check wide"><input id="usePoolish" type="checkbox" checked>Use poolish</label>
+      <label>Flour %<input id="poolishPct" type="number" min="0" max="60" value="30"></label>
+      <label>Hydration %<input id="poolishHydration" type="number" min="50" max="125" value="100"></label>
+      <label>Yeast %<input id="poolishYeast" type="number" min="0" max="1" step="0.01" value="0.15"></label>
+      <label>Temp °F<input id="poolishTemp" type="number" min="35" max="90" value="70"></label>
+      <label>Hours<input id="poolishHours" type="number" min="1" max="30" value="14"></label>
+    </div>
+  </section>
+
+  <section class="input-card">
+    <h2>Timeline &amp; oven</h2>
+    <div class="grid">
+      <label>Storage temp °F<input id="storageTemp" type="number" min="32" max="75" value="40"></label>
+      <label>Bake date/time<input id="bakeTime" type="datetime-local"></label>
+      <label class="check wide"><input id="extraDay" type="checkbox">Hold another fridge day</label>
+      <label>Oven<select id="oven"><option>Pizza Oven</option><option>Home Oven</option></select></label>
+      <label>Pizza oven °F<input id="pizzaOvenTemp" type="number" min="500" max="1000" value="750"></label>
+      <label>Home oven °F<input id="homeOvenTemp" type="number" min="400" max="600" value="550"></label>
+    </div>
+    <div class="save-row"><label>Recipe name<input id="recipeName" type="text" placeholder="Example: Friday NY 15-inch"></label><button class="button" id="saveRecipe">Save recipe</button></div>
+  </section>
+
+  <details class="accordion" open><summary>Dough results</summary><div class="panel"><div class="stats"><div class="stat"><strong id="totalDough"></strong><span>MIXED DOUGH</span></div><div class="stat"><strong id="perBall"></strong><span>PER BALL</span></div><div class="stat"><strong id="baseDough"></strong><span>USABLE DOUGH</span></div></div><p class="help" id="lossNote"></p></div></details>
+  <details class="accordion" open><summary>Ingredient amounts</summary><div class="panel"><table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody id="ingredients"></tbody></table></div></details>
+  <details class="accordion" open><summary>Poolish breakdown</summary><div class="panel"><div class="notice" id="poolishText"></div></div></details>
+  <details class="accordion" open><summary>Bake timeline</summary><div class="panel"><div class="callout" id="schedule"></div></div></details>
+  <details class="accordion"><summary>Recipe steps</summary><div class="panel"><div id="recipeSteps"></div></div></details>
+  <details class="accordion"><summary>Sauce recipe</summary><div class="panel sauce"><h2>Sauce</h2><p><strong>14 oz Italian tomatoes</strong> · 3 Tbsp extra-virgin olive oil · ½ tsp sea salt · 2 basil leaves · pinch dried oregano · 1 fresh garlic clove.</p><p>Crush tomatoes, mix in remaining ingredients, taste for salt, and use a light layer on each pizza.</p></div></details>
+  <details class="accordion"><summary>Saved recipes</summary><div class="panel"><div id="favorites"></div></div></details>
 </main>
 <script>
-const $=id=>document.getElementById(id);const manualIds=['style','pizzas','diameter','thickness','hydration','saltPct','yeastPct','oilPct','flour','primaryPct','secondary','secondaryPct','usePoolish','poolishPct','poolishHydration','poolishYeast','poolishTemp','poolishHours','storageTemp','bakeTime','extraDay','oven','pizzaOvenTemp','homeOvenTemp'];const controls=document.querySelectorAll('input,select');const grams=n=>`${n.toFixed(1)}g`;const favKey='doughwrite-favorites-v1';
-const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+1);tomorrow.setHours(18,0,0,0);$('bakeTime').value=new Date(tomorrow-tomorrow.getTimezoneOffset()*60000).toISOString().slice(0,16);
-function getManual(){const out={};manualIds.forEach(id=>{const el=$(id);out[id]=el.type==='checkbox'?el.checked:el.value});return out}
-function setManual(data){manualIds.forEach(id=>{if(data[id]===undefined)return;const el=$(id);if(el.type==='checkbox')el.checked=!!data[id];else el.value=data[id]});calculate()}
-function favorites(){try{return JSON.parse(localStorage.getItem(favKey)||'[]')}catch{return[]}}
-function renderFavorites(){const list=favorites(),root=$('favorites');if(!list.length){root.innerHTML='<p class="empty">No saved recipes yet.</p>';return}root.innerHTML=list.map(f=>`<article class="favorite"><strong>${escapeHtml(f.name)}</strong><p>${f.data.style} · ${f.data.pizzas} pizzas · ${f.data.diameter} in · ${f.data.hydration}% hydration</p><button class="small load" data-load="${f.id}">Load</button><button class="small delete" data-delete="${f.id}">Delete</button></article>`).join('')}
-function escapeHtml(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-$('saveRecipe').addEventListener('click',()=>{const name=$('recipeName').value.trim()||`${$('style').value} ${$('diameter').value}-inch`;const list=favorites();list.unshift({id:Date.now(),name,data:getManual()});localStorage.setItem(favKey,JSON.stringify(list));$('recipeName').value='';renderFavorites();document.querySelectorAll('.accordion')[6].open=true});
-$('favorites').addEventListener('click',e=>{const id=+e.target.dataset.load||+e.target.dataset.delete;if(!id)return;const list=favorites();if(e.target.dataset.load){const found=list.find(f=>f.id===id);if(found)setManual(found.data)}else{localStorage.setItem(favKey,JSON.stringify(list.filter(f=>f.id!==id)));renderFavorites()}});
-function calculate(){const pizzas=Math.max(1,+$('pizzas').value||1),diameter=Math.max(8,+$('diameter').value||16),thickness=Math.max(.05,Math.min(.13,+$('thickness').value||.075)),hydration=(+$('hydration').value||68)/100,saltPct=(+$('saltPct').value||0)/100,yeastPct=(+$('yeastPct').value||0)/100,oilPct=(+$('oilPct').value||0)/100;$('blend').textContent=`Blend: ${+$('primaryPct').value||0}% ${$('flour').value} + ${+$('secondaryPct').value||0}% ${$('secondary').value}`;const perBall=Math.max(150,Math.PI*(diameter/2)**2*thickness*40.2),total=perBall*pizzas,flour=total/(1+hydration+saltPct+yeastPct+oilPct),water=flour*hydration,salt=flour*saltPct,yeast=flour*yeastPct,oil=flour*oilPct;$('totalDough').textContent=`${Math.round(total)}g`;$('perBall').textContent=`${Math.round(perBall)}g`;$('hydrationResult').textContent=`${Math.round(hydration*100)}%`;$('ingredients').innerHTML=[['Flour',flour],['Water',water],['Salt',salt],['ADY yeast',yeast],['Oil',oil]].map(([n,v])=>`<tr><td>${n}</td><td>${grams(v)}</td></tr>`).join('');const poolishOn=$('usePoolish').checked,pPct=(+$('poolishPct').value||0)/100,pHydration=(+$('poolishHydration').value||100)/100,pYeastPct=(+$('poolishYeast').value||0)/100,pFlour=poolishOn?flour*pPct:0,pWater=pFlour*pHydration,pYeast=pFlour*pYeastPct,finalFlour=flour-pFlour,finalWater=water-pWater;$('poolishText').textContent=poolishOn?`Poolish: ${grams(pFlour)} flour, ${grams(pWater)} water, ${grams(pYeast)} ADY yeast. Final dough: ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, ${grams(oil)} oil.`:'Poolish is off. Mix all ingredients together for the final dough.';const storage=+$('storageTemp').value||40,poolishHours=+$('poolishHours').value||14,bake=new Date($('bakeTime').value),extraHours=$('extraDay').checked?24:0,finalHours=Math.max(2,(bake-new Date())/3600000-poolishHours-extraHours),pizzaOven=$('oven').value==='Pizza Oven',bakeTemp=pizzaOven?(+$('pizzaOvenTemp').value||750):(+$('homeOvenTemp').value||550),bakeDuration=pizzaOven?'2–4 minutes':'7–10 minutes',preheat=pizzaOven?25:45,start=new Date(bake-(poolishHours+finalHours+extraHours)*3600000),mix=new Date(start.getTime()+poolishHours*3600000),format=d=>d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});$('schedule').innerHTML=`<strong>Poolish start:</strong> ${format(start)}<br><strong>Final dough mix:</strong> ${format(mix)}<br><strong>Final fermentation:</strong> about ${finalHours.toFixed(1)} hours at ${storage}°F${extraHours?' plus an extra fridge day':''}.<br><strong>Preheat:</strong> ${preheat} minutes before baking. ${bakeTemp}°F ${$('oven').value.toLowerCase()}: ${bakeDuration}.`;const steps=[poolishOn&&['Make the poolish',`About ${poolishHours} hours before final mixing, combine ${grams(pFlour)} flour, ${grams(pWater)} water, and ${grams(pYeast)} ADY yeast. Cover loosely and ferment at ${$('poolishTemp').value}°F until bubbly and expanded.`],['Mix the final dough',poolishOn?`Combine the ripe poolish with ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, and ${grams(oil)} oil. Mix until no dry flour remains.`:`Combine ${grams(flour)} flour, ${grams(water)} water, ${grams(salt)} salt, ${grams(yeast)} ADY yeast, and ${grams(oil)} oil. Mix until no dry flour remains.`],['Rest and develop','Cover and rest for 20 minutes. Knead or use stretch-and-folds until the dough is smooth, elastic, and cohesive.'],['Divide and ball',`Divide into ${pizzas} equal portions of about ${Math.round(perBall)} g each. Shape into tight balls and put them in lightly oiled, covered containers.`],['Cold ferment',`Refrigerate at ${storage}°F for about ${finalHours.toFixed(1)} hours${extraHours?', then hold one additional day':''}. The dough should become airy and relaxed.`],['Open the dough',`Let the dough lose its chill if it feels tight. Gently press and stretch each ball to ${diameter} inches; do not use a rolling pin.`],['Top and bake',`Use a light layer of sauce. Bake at ${bakeTemp}°F in the ${$('oven').value.toLowerCase()} for ${bakeDuration}, rotating as needed for even browning.`]].filter(Boolean);$('recipeSteps').innerHTML=steps.map(([title,text],i)=>`<article class="step"><span class="number">${i+1}</span><div><h3>${title}</h3><p>${text}</p></div></article>`).join('')}
-controls.forEach(el=>el.addEventListener('input',calculate));calculate();renderFavorites();if('serviceWorker'in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+  const $=id=>document.getElementById(id);
+  const manualIds=['style','pizzas','diameter','thickness','lossPct','hydration','saltPct','yeastPct','oilPct','flour','primaryPct','secondary','secondaryPct','usePoolish','poolishPct','poolishHydration','poolishYeast','poolishTemp','poolishHours','storageTemp','bakeTime','extraDay','oven','pizzaOvenTemp','homeOvenTemp'];
+  const controls=document.querySelectorAll('input,select');
+  const grams=n=>`${n.toFixed(1)}g`;
+  const favKey='doughwrite-favorites-v2';
+  const tomorrow=new Date(); tomorrow.setDate(tomorrow.getDate()+1); tomorrow.setHours(18,0,0,0);
+  $('bakeTime').value=new Date(tomorrow-tomorrow.getTimezoneOffset()*60000).toISOString().slice(0,16);
+
+  function getManual(){const out={};manualIds.forEach(id=>{const el=$(id);out[id]=el.type==='checkbox'?el.checked:el.value});return out}
+  function setManual(data){manualIds.forEach(id=>{if(data[id]===undefined)return;const el=$(id);if(el.type==='checkbox')el.checked=!!data[id];else el.value=data[id]});calculate()}
+  function favorites(){try{return JSON.parse(localStorage.getItem(favKey)||'[]')}catch{return[]}}
+  function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+  function renderFavorites(){const list=favorites(),root=$('favorites');if(!list.length){root.innerHTML='<p class="empty">No saved recipes yet.</p>';return}root.innerHTML=list.map(f=>`<article class="favorite"><strong>${esc(f.name)}</strong><p>${f.data.style} · ${f.data.pizzas} pizzas · ${f.data.diameter} in · ${f.data.hydration}% hydration</p><button class="small load" data-load="${f.id}">Load</button><button class="small delete" data-delete="${f.id}">Delete</button></article>`).join('')}
+  $('saveRecipe').addEventListener('click',()=>{const name=$('recipeName').value.trim()||`${$('style').value} ${$('diameter').value}-inch`;const list=favorites();list.unshift({id:Date.now(),name,data:getManual()});localStorage.setItem(favKey,JSON.stringify(list));$('recipeName').value='';renderFavorites();document.querySelectorAll('.accordion')[6].open=true});
+  $('favorites').addEventListener('click',e=>{const id=+e.target.dataset.load||+e.target.dataset.delete;if(!id)return;const list=favorites();if(e.target.dataset.load){const found=list.find(f=>f.id===id);if(found)setManual(found.data)}else{localStorage.setItem(favKey,JSON.stringify(list.filter(f=>f.id!==id)));renderFavorites()}});
+
+  function calculate(){
+    const pizzas=Math.max(1,+$('pizzas').value||1),diameter=Math.max(8,+$('diameter').value||15),thickness=Math.max(.05,Math.min(.13,+$('thickness').value||.065));
+    const lossPct=Math.max(0,+$('lossPct').value||0)/100,hydration=(+$('hydration').value||68)/100,saltPct=(+$('saltPct').value||0)/100,yeastPct=(+$('yeastPct').value||0)/100,oilPct=(+$('oilPct').value||0)/100;
+    $('blend').textContent=`Blend: ${+$('primaryPct').value||0}% ${$('flour').value} + ${+$('secondaryPct').value||0}% ${$('secondary').value}`;
+
+    // 37 is calibrated so a 15-inch pie at a 0.065 thin-crust factor is about 425 g.
+    const usablePerBall=Math.max(150,Math.PI*(diameter/2)**2*thickness*37);
+    const usableTotal=usablePerBall*pizzas;
+    const mixedTotal=usableTotal*(1+lossPct);
+    const mixedPerBall=mixedTotal/pizzas;
+    const flour=mixedTotal/(1+hydration+saltPct+yeastPct+oilPct),water=flour*hydration,salt=flour*saltPct,yeast=flour*yeastPct,oil=flour*oilPct;
+
+    $('totalDough').textContent=`${Math.round(mixedTotal)}g`;
+    $('perBall').textContent=`${Math.round(mixedPerBall)}g`;
+    $('baseDough').textContent=`${Math.round(usablePerBall)}g`;
+    $('lossNote').textContent=`Target: ${Math.round(usablePerBall)}g usable dough per pie. The batch includes ${Math.round(lossPct*100)}% handling allowance (${Math.round(mixedTotal-usableTotal)}g total) for dough left on the bowl, bench, scraper, and hands.`;
+    $('ingredients').innerHTML=[['Flour',flour],['Water',water],['Salt',salt],['ADY yeast',yeast],['Oil',oil]].map(([n,v])=>`<tr><td>${n}</td><td>${grams(v)}</td></tr>`).join('');
+
+    const poolishOn=$('usePoolish').checked,pPct=(+$('poolishPct').value||0)/100,pHydration=(+$('poolishHydration').value||100)/100,pYeastPct=(+$('poolishYeast').value||0)/100,pFlour=poolishOn?flour*pPct:0,pWater=pFlour*pHydration,pYeast=pFlour*pYeastPct,finalFlour=flour-pFlour,finalWater=water-pWater;
+    $('poolishText').textContent=poolishOn?`Poolish: ${grams(pFlour)} flour, ${grams(pWater)} water, ${grams(pYeast)} ADY yeast. Final dough: ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, ${grams(oil)} oil.`:'Poolish is off. Mix all ingredients together for the final dough.';
+
+    const storage=+$('storageTemp').value||40,poolishHours=+$('poolishHours').value||14,bake=new Date($('bakeTime').value),extraHours=$('extraDay').checked?24:0,finalHours=Math.max(2,(bake-new Date())/3600000-poolishHours-extraHours),pizzaOven=$('oven').value==='Pizza Oven',bakeTemp=pizzaOven?(+$('pizzaOvenTemp').value||750):(+$('homeOvenTemp').value||550),bakeDuration=pizzaOven?'2–4 minutes':'7–10 minutes',preheat=pizzaOven?25:45,start=new Date(bake-(poolishHours+finalHours+extraHours)*3600000),mix=new Date(start.getTime()+poolishHours*3600000),format=d=>d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+    $('schedule').innerHTML=`<strong>Poolish start:</strong> ${format(start)}<br><strong>Final dough mix:</strong> ${format(mix)}<br><strong>Final fermentation:</strong> about ${finalHours.toFixed(1)} hours at ${storage}°F${extraHours?' plus an extra fridge day':''}.<br><strong>Preheat:</strong> ${preheat} minutes before baking. ${bakeTemp}°F ${$('oven').value.toLowerCase()}: ${bakeDuration}.`;
+
+    const steps=[poolishOn&&['Make the poolish',`About ${poolishHours} hours before final mixing, combine ${grams(pFlour)} flour, ${grams(pWater)} water, and ${grams(pYeast)} ADY yeast. Cover loosely and ferment at ${$('poolishTemp').value}°F until bubbly and expanded.`],['Mix the final dough',poolishOn?`Combine the ripe poolish with ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, and ${grams(oil)} oil. Mix until no dry flour remains.`:`Combine ${grams(flour)} flour, ${grams(water)} water, ${grams(salt)} salt, ${grams(yeast)} ADY yeast, and ${grams(oil)} oil. Mix until no dry flour remains.`],['Rest and develop','Cover and rest for 20 minutes. Knead or use stretch-and-folds until the dough is smooth, elastic, and cohesive.'],['Divide and ball',`Divide into ${pizzas} portions of about ${Math.round(mixedPerBall)} g. After the ${Math.round(lossPct*100)}% handling allowance, each should provide about ${Math.round(usablePerBall)} g for a ${diameter}-inch pizza.`],['Cold ferment',`Refrigerate at ${storage}°F for about ${finalHours.toFixed(1)} hours${extraHours?', then hold one additional day':''}. The dough should become airy and relaxed.`],['Open the dough',`Let the dough lose its chill if it feels tight. Gently press and stretch each ball to ${diameter} inches; do not use a rolling pin.`],['Top and bake',`Use a light layer of sauce. Bake at ${bakeTemp}°F in the ${$('oven').value.toLowerCase()} for ${bakeDuration}, rotating as needed for even browning.`]].filter(Boolean);
+    $('recipeSteps').innerHTML=steps.map(([title,text],i)=>`<article class="step"><span class="number">${i+1}</span><div><h3>${title}</h3><p>${text}</p></div></article>`).join('');
+  }
+  controls.forEach(el=>el.addEventListener('input',calculate));
+  calculate();renderFavorites();
 </script>
 </body>
 </html>
