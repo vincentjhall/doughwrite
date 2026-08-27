@@ -1,130 +1,94 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f8f0e7">
-  <title>Doughwrite</title>
-  <style>
-    :root{--ink:#2d170d;--brown:#73391d;--orange:#e56d18;--cream:#fffaf3;--paper:#f8f0e7;--line:#dfc2aa;--green:#edf7e8;--muted:#76655a}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{width:min(760px,100%);margin:auto;padding:24px 16px 56px}header{border-bottom:6px solid var(--orange);padding:4px 0 22px;margin-bottom:28px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif}h1{margin:0;font-size:clamp(2.6rem,11vw,4.4rem);letter-spacing:-.05em;color:var(--brown)}h1 span{color:var(--orange)}header p{margin:9px 0 0;color:var(--muted);font-size:1.15rem}h2{font-size:clamp(1.9rem,7vw,2.45rem);margin:0 0 16px;color:var(--ink)}section{margin-top:30px}.input-card,.panel{background:var(--cream);border:2px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}label{display:block;color:var(--brown);font-weight:800;font-size:.98rem}input,select{display:block;width:100%;margin-top:7px;padding:12px;border:2px solid var(--line);border-radius:10px;background:#fffdf9;color:var(--ink);font:700 1rem ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wide{grid-column:1/-1}.check{display:flex;align-items:center;gap:9px;padding-top:8px}.check input{width:auto;margin:0}.help{margin:6px 0 0;color:var(--muted);font-size:.82rem;font-weight:500;line-height:1.35}.blend{margin:16px 0 0;color:var(--muted);line-height:1.45}.save-row{display:flex;gap:10px;align-items:end;margin-top:18px}.save-row label{flex:1}.button{border:0;border-radius:11px;background:var(--orange);color:#fff;padding:13px 16px;font-size:1rem;font-weight:900;cursor:pointer;white-space:nowrap}.accordion{margin-top:14px}.accordion summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border:2px solid var(--line);border-radius:13px;background:var(--cream);padding:14px 15px;font-size:1.04rem;font-weight:900;color:var(--brown)}.accordion summary::-webkit-details-marker{display:none}.accordion summary:after{content:"+";font-size:1.4rem;color:var(--orange)}.accordion[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0}.accordion[open] summary:after{content:"−"}.panel{border-top:0;border-top-left-radius:0;border-top-right-radius:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border:2px solid var(--line);background:#fff5ea;border-radius:12px;text-align:center;padding:17px 8px}.stat strong{display:block;color:var(--orange);font:800 clamp(1.55rem,7vw,2.3rem) Georgia,serif}.stat span{display:block;color:var(--muted);font-size:.7rem;font-weight:900;letter-spacing:.05em;margin-top:5px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 4px;border-bottom:1px solid var(--line)}th{color:var(--brown)}.notice{background:var(--green);border-radius:11px;padding:14px;line-height:1.55;color:#5b452f}.callout{border-left:6px solid var(--orange);background:#fff4e7;padding:14px;line-height:1.6}.step{display:grid;grid-template-columns:35px 1fr;gap:11px;padding:15px 0;border-bottom:1px solid var(--line)}.number{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--orange);color:#fff;font-weight:900}.step h3{margin:1px 0 5px;color:var(--brown);font-size:1.2rem}.step p{margin:0;line-height:1.52}.favorite{border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:9px;background:#fffdf9}.favorite strong{display:block;color:var(--brown);font-family:Georgia,"Times New Roman",serif;font-size:1.13rem}.favorite p{margin:5px 0 10px;color:var(--muted);font-size:.88rem}.small{border:0;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;margin-right:7px}.load{background:#e56d18;color:#fff}.delete{background:#f2dcd2;color:#77351a}.empty{margin:0;color:var(--muted);text-align:center;padding:10px}.sauce p{line-height:1.6}@media(max-width:480px){main{padding:20px 14px 48px}.grid,.stats{grid-template-columns:1fr}.save-row{align-items:stretch;flex-direction:column}.button{width:100%}}
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8f0e7">
+<title>Doughwrite</title>
+<style>
+:root{--ink:#2d170d;--brown:#73391d;--orange:#e56d18;--cream:#fffaf3;--paper:#f8f0e7;--line:#dfc2aa;--green:#edf7e8;--muted:#76655a;--warn:#fff2d8}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{width:min(760px,100%);margin:auto;padding:24px 16px 56px}header{border-bottom:6px solid var(--orange);padding:4px 0 22px;margin-bottom:28px}h1,h2,h3{font-family:Georgia,"Times New Roman",serif}h1{margin:0;font-size:clamp(2.6rem,11vw,4.4rem);letter-spacing:-.05em;color:var(--brown)}h1 span{color:var(--orange)}header p{margin:9px 0 0;color:var(--muted);font-size:1.15rem}h2{font-size:clamp(1.9rem,7vw,2.45rem);margin:0 0 16px}section{margin-top:30px}.input-card,.panel{background:var(--cream);border:2px solid var(--line);border-radius:16px;padding:18px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}label{display:block;color:var(--brown);font-weight:800;font-size:.98rem}input,select{display:block;width:100%;margin-top:7px;padding:12px;border:2px solid var(--line);border-radius:10px;background:#fffdf9;color:var(--ink);font:700 1rem ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.wide{grid-column:1/-1}.check{display:flex;align-items:center;gap:9px;padding-top:8px}.check input{width:auto;margin:0}.help{margin:6px 0 0;color:var(--muted);font-size:.82rem;font-weight:500;line-height:1.35}.blend{margin:16px 0 0;color:var(--muted);line-height:1.45}.save-row{display:flex;gap:10px;align-items:end;margin-top:18px}.save-row label{flex:1}.button{border:0;border-radius:11px;background:var(--orange);color:#fff;padding:13px 16px;font-size:1rem;font-weight:900;cursor:pointer;white-space:nowrap}.accordion{margin-top:14px}.accordion summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;border:2px solid var(--line);border-radius:13px;background:var(--cream);padding:14px 15px;font-size:1.04rem;font-weight:900;color:var(--brown)}.accordion summary::-webkit-details-marker{display:none}.accordion summary:after{content:"+";font-size:1.4rem;color:var(--orange)}.accordion[open] summary{border-bottom-left-radius:0;border-bottom-right-radius:0}.accordion[open] summary:after{content:"−"}.panel{border-top:0;border-top-left-radius:0;border-top-right-radius:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{border:2px solid var(--line);background:#fff5ea;border-radius:12px;text-align:center;padding:17px 8px}.stat strong{display:block;color:var(--orange);font:800 clamp(1.55rem,7vw,2.3rem) Georgia,serif}.stat span{display:block;color:var(--muted);font-size:.7rem;font-weight:900;letter-spacing:.05em;margin-top:5px}table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:12px 4px;border-bottom:1px solid var(--line)}th{color:var(--brown)}.notice,.warning{border-radius:11px;padding:14px;line-height:1.55;color:#5b452f}.notice{background:var(--green)}.warning{background:var(--warn);border-left:5px solid var(--orange);margin-top:12px}.callout{border-left:6px solid var(--orange);background:#fff4e7;padding:14px;line-height:1.6}.step{display:grid;grid-template-columns:35px 1fr;gap:11px;padding:15px 0;border-bottom:1px solid var(--line)}.number{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--orange);color:#fff;font-weight:900}.step h3{margin:1px 0 5px;color:var(--brown);font-size:1.2rem}.step p{margin:0;line-height:1.52}.favorite{border:1px solid var(--line);border-radius:11px;padding:12px;margin-bottom:9px;background:#fffdf9}.favorite strong{display:block;color:var(--brown);font-family:Georgia,"Times New Roman",serif;font-size:1.13rem}.favorite p{margin:5px 0 10px;color:var(--muted);font-size:.88rem}.small{border:0;border-radius:8px;padding:8px 10px;font-weight:800;cursor:pointer;margin-right:7px}.load{background:#e56d18;color:#fff}.delete{background:#f2dcd2;color:#77351a}.empty{margin:0;color:var(--muted);text-align:center;padding:10px}.sauce p{line-height:1.6}@media(max-width:480px){main{padding:20px 14px 48px}.grid,.stats{grid-template-columns:1fr}.save-row{align-items:stretch;flex-direction:column}.button{width:100%}}
+</style>
 </head>
 <body>
 <main>
-  <header><h1>Dough<span>write</span></h1><p>Precision pizza dough, from formula to fire.</p></header>
-
-  <section class="input-card">
-    <h2>Formula</h2>
-    <div class="grid">
-      <label>Style<select id="style"><option>New York</option><option>Neapolitan</option><option>Sicilian</option></select></label>
-      <label>Pizzas<input id="pizzas" type="number" min="1" value="3"></label>
-      <label>Diameter (in)<input id="diameter" type="number" min="8" max="20" value="15"></label>
-      <label>Thickness factor<input id="thickness" type="number" min="0.050" max="0.130" step="0.005" value="0.065"><p class="help">Thin 0.065 · Medium 0.075 · Thick 0.100</p></label>
-      <label>Handling loss %<input id="lossPct" type="number" min="0" max="20" step="0.5" value="5"><p class="help">Extra dough for bowl, bench, scraper, and flour loss.</p></label>
-      <label>Hydration %<input id="hydration" type="number" min="50" max="85" step="0.5" value="68"></label>
-      <label>Salt %<input id="saltPct" type="number" min="0" max="5" step="0.1" value="1.5"></label>
-      <label>Yeast type<select id="yeastType"><option value="IDY">Instant dry yeast (IDY)</option><option value="ADY">Active dry yeast (ADY)</option><option value="Fresh">Fresh/compressed yeast</option></select><p class="help">The percentage is calculated against the selected yeast type.</p></label>
-      <label>Yeast %<input id="yeastPct" type="number" min="0" max="2" step="0.01" value="0.20"></label>
-      <label>Oil %<input id="oilPct" type="number" min="0" max="10" step="0.1" value="2.5"></label>
-      <label>Primary flour<select id="flour"><option>Bread Flour</option><option>00 Pizza Flour</option><option>All-purpose Flour</option></select></label>
-      <label>Primary %<input id="primaryPct" type="number" min="0" max="100" value="100"></label>
-      <label>Secondary flour<select id="secondary"><option>00 Pizza Flour</option><option>Bread Flour</option><option>All-purpose Flour</option></select></label>
-      <label>Secondary %<input id="secondaryPct" type="number" min="0" max="100" value="0"></label>
-    </div>
-    <p class="blend" id="blend"></p>
-  </section>
-
-  <section class="input-card">
-    <h2>Preferment</h2>
-    <div class="grid">
-      <label class="check wide"><input id="usePreferment" type="checkbox" checked>Use preferment</label>
-      <label>Flour %<input id="prefermentPct" type="number" min="0" max="60" value="10"></label>
-      <label>Hydration %<input id="prefermentHydration" type="number" min="50" max="125" value="100"></label>
-      <label>Yeast %<input id="prefermentYeast" type="number" min="0" max="1" step="0.01" value="0.10"><p class="help">Uses the yeast type selected above.</p></label>
-      <label><span data-temp-label>Temp °F</span><input id="prefermentTemp" type="number" min="35" max="90" value="70"></label>
-      <label>Hours<input id="prefermentHours" type="number" min="1" max="30" value="14"></label>
-    </div>
-  </section>
-
-  <section class="input-card">
-    <h2>Timeline &amp; oven</h2>
-    <div class="grid">
-      <label>Temperature unit<select id="tempUnit"><option value="F">Fahrenheit (°F)</option><option value="C">Celsius (°C)</option></select></label>
-      <label><span data-temp-label>Storage temp °F</span><input id="storageTemp" type="number" min="32" max="75" value="40"></label>
-      <label>Bake date/time<input id="bakeTime" type="datetime-local"></label>
-      <label class="check wide"><input id="extraDay" type="checkbox">Hold another fridge day</label>
-      <label>Oven<select id="oven"><option>Pizza Oven</option><option>Home Oven</option></select></label>
-      <label><span data-temp-label>Pizza oven °F</span><input id="pizzaOvenTemp" type="number" min="500" max="1000" value="750"></label>
-      <label><span data-temp-label>Home oven °F</span><input id="homeOvenTemp" type="number" min="400" max="600" value="550"></label>
-    </div>
-    <div class="save-row"><label>Recipe name<input id="recipeName" type="text" placeholder="Example: Friday NY 15-inch"></label><button class="button" id="saveRecipe">Save recipe</button></div>
-  </section>
-
-  <details class="accordion" open><summary>Dough results</summary><div class="panel"><div class="stats"><div class="stat"><strong id="totalDough"></strong><span>MIXED DOUGH</span></div><div class="stat"><strong id="perBall"></strong><span>PER BALL</span></div><div class="stat"><strong id="baseDough"></strong><span>USABLE DOUGH</span></div></div><p class="help" id="lossNote"></p></div></details>
-  <details class="accordion" open><summary>Ingredient amounts</summary><div class="panel"><table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody id="ingredients"></tbody></table><p class="help" id="yeastEquivalents"></p></div></details>
-  <details class="accordion" open><summary>Preferment breakdown</summary><div class="panel"><div class="notice" id="prefermentText"></div></div></details>
-  <details class="accordion" open><summary>Bake timeline</summary><div class="panel"><div class="callout" id="schedule"></div></div></details>
-  <details class="accordion"><summary>Recipe steps</summary><div class="panel"><div id="recipeSteps"></div></div></details>
-  <details class="accordion"><summary>Yeast conversion guide</summary><div class="panel"><div class="notice"><strong>Equivalent yeast weights:</strong> IDY × 1.25 = ADY; IDY × 3 = fresh yeast. This calculator uses IDY-equivalent yeast internally for planning, then displays the selected yeast amount.</div><table><thead><tr><th>Type</th><th>Relative to IDY</th><th id="guideAmountHead">Equivalent amount</th></tr></thead><tbody id="yeastGuide"></tbody></table></div></details>
-  <details class="accordion"><summary>Sauce recipe</summary><div class="panel sauce"><h2>Sauce</h2><p><strong>14 oz Italian tomatoes</strong> · 3 Tbsp extra-virgin olive oil · ½ tsp sea salt · 2 basil leaves · pinch dried oregano · 1 fresh garlic clove.</p><p>Crush tomatoes, mix in remaining ingredients, taste for salt, and use a light layer on each pizza.</p></div></details>
-  <details class="accordion"><summary>Saved recipes</summary><div class="panel"><div id="favorites"></div></div></details>
+<header><h1>Dough<span>write</span></h1><p>Precision pizza dough, from formula to fire.</p></header>
+<section class="input-card"><h2>Formula</h2><div class="grid">
+<label>Style<select id="style"><option>New York</option><option>Neapolitan</option><option>Sicilian</option></select></label>
+<label>Pizzas<input id="pizzas" type="number" min="1" value="3"></label>
+<label>Diameter (in)<input id="diameter" type="number" min="8" max="20" value="15"></label>
+<label>Thickness factor<input id="thickness" type="number" min="0.050" max="0.130" step="0.0025" value="0.0625"><p class="help">Very thin 0.055 · Thin 0.065 · Medium 0.075 · Thick 0.100</p></label>
+<label>Handling loss %<input id="lossPct" type="number" min="0" max="20" step="0.5" value="5"><p class="help">Extra batch dough for bowl, bench, scraper, and hands.</p></label>
+<label>Hydration %<input id="hydration" type="number" min="50" max="85" step="0.5" value="68"></label>
+<label>Salt %<input id="saltPct" type="number" min="0" max="5" step="0.1" value="1.5"></label>
+<label>Yeast type<select id="yeastType"><option value="IDY">Instant dry yeast (IDY)</option><option value="ADY">Active dry yeast (ADY)</option><option value="Fresh">Fresh/compressed yeast</option></select></label>
+<label>Yeast %<input id="yeastPct" type="number" min="0" max="2" step="0.01" value="0.20"><p class="help">Percentage of total flour, using the selected type.</p></label>
+<label>Oil %<input id="oilPct" type="number" min="0" max="10" step="0.1" value="2.5"></label>
+<label>Primary flour<select id="flour"><option>Bread Flour</option><option>00 Pizza Flour</option><option>All-purpose Flour</option></select></label>
+<label>Primary %<input id="primaryPct" type="number" min="0" max="100" value="100"></label>
+<label>Secondary flour<select id="secondary"><option>00 Pizza Flour</option><option>Bread Flour</option><option>All-purpose Flour</option></select></label>
+<label>Secondary %<input id="secondaryPct" type="number" min="0" max="100" value="0"></label>
+</div><p class="blend" id="blend"></p></section>
+<section class="input-card"><h2>Preferment</h2><div class="grid">
+<label class="check wide"><input id="usePreferment" type="checkbox" checked>Use preferment</label>
+<label>Flour %<input id="prefermentPct" type="number" min="0" max="60" value="10"></label>
+<label>Hydration %<input id="prefermentHydration" type="number" min="50" max="125" value="100"></label>
+<label>Yeast %<input id="prefermentYeast" type="number" min="0" max="1" step="0.01" value="0.10"><p class="help">Percentage of preferment flour, using the selected yeast type.</p></label>
+<label><span data-temp-label>Temp °F</span><input id="prefermentTemp" type="number" min="35" max="90" value="70"></label>
+<label>Hours<input id="prefermentHours" type="number" min="1" max="30" value="14"></label>
+</div></section>
+<section class="input-card"><h2>Timeline &amp; oven</h2><div class="grid">
+<label>Temperature unit<select id="tempUnit"><option value="F">Fahrenheit (°F)</option><option value="C">Celsius (°C)</option></select></label>
+<label><span data-temp-label>Storage temp °F</span><input id="storageTemp" type="number" min="32" max="75" value="40"></label>
+<label>Bake date/time<input id="bakeTime" type="datetime-local"></label>
+<label class="check wide"><input id="extraDay" type="checkbox">Hold another fridge day</label>
+<label>Oven<select id="oven"><option>Pizza Oven</option><option>Home Oven</option></select></label>
+<label><span data-temp-label>Pizza oven °F</span><input id="pizzaOvenTemp" type="number" min="500" max="1000" value="750"></label>
+<label><span data-temp-label>Home oven °F</span><input id="homeOvenTemp" type="number" min="400" max="600" value="550"></label>
+</div><div class="save-row"><label>Recipe name<input id="recipeName" type="text" placeholder="Example: Friday NY 15-inch"></label><button class="button" id="saveRecipe">Save recipe</button></div></section>
+<details class="accordion" open><summary>Dough results</summary><div class="panel"><div class="stats"><div class="stat"><strong id="totalDough"></strong><span>MIX THIS MUCH</span></div><div class="stat"><strong id="perBall"></strong><span>DIVIDE INTO</span></div><div class="stat"><strong id="baseDough"></strong><span>TARGET PER PIE</span></div></div><p class="help" id="lossNote"></p></div></details>
+<details class="accordion" open><summary>Ingredient amounts</summary><div class="panel"><table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody id="ingredients"></tbody></table><p class="help" id="yeastEquivalents"></p></div></details>
+<details class="accordion" open><summary>Preferment breakdown</summary><div class="panel"><div class="notice" id="prefermentText"></div></div></details>
+<details class="accordion" open><summary>Bake timeline</summary><div class="panel"><div class="callout" id="schedule"></div><div class="warning" id="fermentationWarning"></div></div></details>
+<details class="accordion"><summary>Recipe steps</summary><div class="panel"><div id="recipeSteps"></div></div></details>
+<details class="accordion"><summary>Yeast conversion guide</summary><div class="panel"><div class="notice"><strong>Equivalent yeast weights:</strong> IDY × 1.25 = ADY; IDY × 3 = fresh yeast. The calculator uses IDY-equivalent yeast for planning and displays the selected type.</div><table><thead><tr><th>Type</th><th>Relative to IDY</th><th>Equivalent amount</th></tr></thead><tbody id="yeastGuide"></tbody></table></div></details>
+<details class="accordion"><summary>Sauce recipe</summary><div class="panel sauce"><h2>Sauce</h2><p><strong>14 oz Italian tomatoes</strong> · 3 Tbsp extra-virgin olive oil · ½ tsp sea salt · 2 basil leaves · pinch dried oregano · 1 fresh garlic clove.</p><p>Crush tomatoes, mix in remaining ingredients, taste for salt, and use a light layer on each pizza.</p></div></details>
+<details class="accordion"><summary>Saved recipes</summary><div class="panel"><div id="favorites"></div></div></details>
 </main>
 <script>
-  const $=id=>document.getElementById(id);
-  const manualIds=['style','pizzas','diameter','thickness','lossPct','hydration','saltPct','yeastType','yeastPct','oilPct','flour','primaryPct','secondary','secondaryPct','usePreferment','prefermentPct','prefermentHydration','prefermentYeast','prefermentTemp','prefermentHours','tempUnit','storageTemp','bakeTime','extraDay','oven','pizzaOvenTemp','homeOvenTemp'];
-  const controls=document.querySelectorAll('input,select');
-  const tempInputs=['prefermentTemp','storageTemp','pizzaOvenTemp','homeOvenTemp'];
-  const tempLabels={F:['Temp °F','Storage temp °F','Pizza oven °F','Home oven °F'],C:['Temp °C','Storage temp °C','Pizza oven °C','Home oven °C']};
-  const yeastNames={IDY:'Instant dry yeast (IDY)',ADY:'Active dry yeast (ADY)',Fresh:'Fresh/compressed yeast'};
-  const yeastFactors={IDY:1,ADY:1.25,Fresh:3};
-  const favKey='doughwrite-favorites-v4';
-  const grams=n=>`${n.toFixed(1)}g`;
-  const fToC=f=>(f-32)*5/9;
-  const cToF=c=>c*9/5+32;
-  const fmtTemp=n=>Math.round(n*10)/10;
-  const tomorrow=new Date(); tomorrow.setDate(tomorrow.getDate()+1); tomorrow.setHours(18,0,0,0);
-  $('bakeTime').value=new Date(tomorrow-tomorrow.getTimezoneOffset()*60000).toISOString().slice(0,16);
-
-  function getManual(){const out={};manualIds.forEach(id=>{const el=$(id);out[id]=el.type==='checkbox'?el.checked:el.value});return out}
-  function setManual(data){manualIds.forEach(id=>{if(data[id]===undefined)return;const el=$(id);if(el.type==='checkbox')el.checked=!!data[id];else el.value=data[id]});updateTemperatureLabels();calculate()}
-  function favorites(){try{return JSON.parse(localStorage.getItem(favKey)||'[]')}catch{return[]}}
-  function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
-  function renderFavorites(){const list=favorites(),root=$('favorites');if(!list.length){root.innerHTML='<p class="empty">No saved recipes yet.</p>';return}root.innerHTML=list.map(f=>`<article class="favorite"><strong>${esc(f.name)}</strong><p>${f.data.style} · ${f.data.pizzas} pizzas · ${f.data.diameter} in · ${f.data.hydration}% hydration · ${f.data.yeastType||'IDY'}</p><button class="small load" data-load="${f.id}">Load</button><button class="small delete" data-delete="${f.id}">Delete</button></article>`).join('')}
-  $('saveRecipe').addEventListener('click',()=>{const name=$('recipeName').value.trim()||`${$('style').value} ${$('diameter').value}-inch`;const list=favorites();list.unshift({id:Date.now(),name,data:getManual()});localStorage.setItem(favKey,JSON.stringify(list));$('recipeName').value='';renderFavorites();document.querySelectorAll('.accordion')[7].open=true});
-  $('favorites').addEventListener('click',e=>{const id=+e.target.dataset.load||+e.target.dataset.delete;if(!id)return;const list=favorites();if(e.target.dataset.load){const found=list.find(f=>f.id===id);if(found)setManual(found.data)}else{localStorage.setItem(favKey,JSON.stringify(list.filter(f=>f.id!==id)));renderFavorites()}});
-
-  function updateTemperatureLabels(){const unit=$('tempUnit').value;document.querySelectorAll('[data-temp-label]').forEach((label,i)=>label.textContent=tempLabels[unit][i]);const ranges=unit==='F'?[[35,90],[32,75],[500,1000],[400,600]]:[[2,32],[0,24],[260,540],[205,315]];tempInputs.forEach((id,i)=>{$(id).min=ranges[i][0];$(id).max=ranges[i][1]})}
-  function switchTemperatureUnit(){const oldUnit=$('tempUnit').dataset.previous||'F',newUnit=$('tempUnit').value;if(oldUnit===newUnit)return;tempInputs.forEach(id=>{const value=+$(''+id).value;if(Number.isFinite(value))$(''+id).value=fmtTemp(newUnit==='C'?fToC(value):cToF(value))});$('tempUnit').dataset.previous=newUnit;updateTemperatureLabels();calculate()}
-  function toF(value){return $('tempUnit').value==='C'?cToF(value):value}
-  function displayTemp(f){return $('tempUnit').value==='C'?`${Math.round(fToC(f))}°C`:`${Math.round(f)}°F`}
-
-  function calculate(){
-    const pizzas=Math.max(1,+$('pizzas').value||1),diameter=Math.max(8,+$('diameter').value||15),thickness=Math.max(.05,Math.min(.13,+$('thickness').value||.065));
-    const lossPct=Math.max(0,+$('lossPct').value||0)/100,hydration=(+$('hydration').value||68)/100,saltPct=(+$('saltPct').value||0)/100,oilPct=(+$('oilPct').value||0)/100;
-    const yeastType=$('yeastType').value,yeastFactor=yeastFactors[yeastType],selectedYeastPct=(+$('yeastPct').value||0)/100,idyYeastPct=selectedYeastPct/yeastFactor;
-    $('blend').textContent=`Blend: ${+$('primaryPct').value||0}% ${$('flour').value} + ${+$('secondaryPct').value||0}% ${$('secondary').value}`;
-    const usablePerBall=Math.max(150,Math.PI*(diameter/2)**2*thickness*37),usableTotal=usablePerBall*pizzas,mixedTotal=usableTotal*(1+lossPct),mixedPerBall=mixedTotal/pizzas;
-    const flour=mixedTotal/(1+hydration+saltPct+idyYeastPct+oilPct),water=flour*hydration,salt=flour*saltPct,idyYeast=flour*idyYeastPct,selectedYeast=idyYeast*yeastFactor,oil=flour*oilPct;
-    $('totalDough').textContent=`${Math.round(mixedTotal)}g`;$('perBall').textContent=`${Math.round(mixedPerBall)}g`;$('baseDough').textContent=`${Math.round(usablePerBall)}g`;
-    $('lossNote').textContent=`Target: ${Math.round(usablePerBall)}g usable dough per pie. The batch includes ${Math.round(lossPct*100)}% handling allowance (${Math.round(mixedTotal-usableTotal)}g total) for dough left on the bowl, bench, scraper, and hands.`;
-    $('ingredients').innerHTML=[['Flour',flour],['Water',water],['Salt',salt],[yeastNames[yeastType],selectedYeast],['Oil',oil]].map(([n,v])=>`<tr><td>${n}</td><td>${grams(v)}</td></tr>`).join('');
-    $('yeastEquivalents').textContent=`This batch's ${grams(selectedYeast)} ${yeastType} is equivalent to ${grams(idyYeast)} IDY, ${grams(idyYeast*1.25)} ADY, or ${grams(idyYeast*3)} fresh yeast.`;
-    $('yeastGuide').innerHTML=[['Instant dry yeast (IDY)','1.00×',idyYeast],['Active dry yeast (ADY)','1.25×',idyYeast*1.25],['Fresh/compressed yeast','3.00×',idyYeast*3]].map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${grams(r[2])}</td></tr>`).join('');
-
-    const prefermentOn=$('usePreferment').checked,pPct=(+$('prefermentPct').value||0)/100,pHydration=(+$('prefermentHydration').value||100)/100,pSelectedYeastPct=(+$('prefermentYeast').value||0)/100,pIdyYeastPct=pSelectedYeastPct/yeastFactor,pFlour=prefermentOn?flour*pPct:0,pWater=pFlour*pHydration,pIdyYeast=pFlour*pIdyYeastPct,pSelectedYeast=pIdyYeast*yeastFactor,finalFlour=flour-pFlour,finalWater=water-pWater,finalSelectedYeast=Math.max(0,selectedYeast-pSelectedYeast);
-    $('prefermentText').textContent=prefermentOn?`Preferment: ${grams(pFlour)} flour, ${grams(pWater)} water, ${grams(pSelectedYeast)} ${yeastType}. Final dough: ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, ${grams(finalSelectedYeast)} ${yeastType}, ${grams(oil)} oil.`:'Preferment is off. Mix all ingredients together for the final dough.';
-
-    const storageF=toF(+$('storageTemp').value||40),prefermentTempF=toF(+$('prefermentTemp').value||70),prefermentHours=+$('prefermentHours').value||14,bake=new Date($('bakeTime').value),extraHours=$('extraDay').checked?24:0,finalHours=Math.max(2,(bake-new Date())/3600000-prefermentHours-extraHours),pizzaOven=$('oven').value==='Pizza Oven',bakeTempF=pizzaOven?toF(+$('pizzaOvenTemp').value||750):toF(+$('homeOvenTemp').value||550),bakeDuration=pizzaOven?'2–4 minutes':'7–10 minutes',preheat=pizzaOven?25:45,start=new Date(bake-(prefermentHours+finalHours+extraHours)*3600000),mix=new Date(start.getTime()+prefermentHours*3600000),format=d=>d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
-    $('schedule').innerHTML=`<strong>Preferment start:</strong> ${format(start)}<br><strong>Final dough mix:</strong> ${format(mix)}<br><strong>Final fermentation:</strong> about ${finalHours.toFixed(1)} hours at ${displayTemp(storageF)}${extraHours?' plus an extra fridge day':''}.<br><strong>Preheat:</strong> ${preheat} minutes before baking. ${displayTemp(bakeTempF)} ${$('oven').value.toLowerCase()}: ${bakeDuration}.`;
-
-    const bloom=yeastType==='ADY'?` Bloom the ADY in a small portion of the formula water at 100–110°F for about 5 minutes; subtract that water from the listed final-dough water.`:'';
-    const steps=[prefermentOn&&['Make the preferment',`About ${prefermentHours} hours before final mixing, combine ${grams(pFlour)} flour, ${grams(pWater)} water, and ${grams(pSelectedYeast)} ${yeastType}. Cover loosely and ferment at ${displayTemp(prefermentTempF)} until bubbly and expanded.${bloom}`],['Mix the final dough',prefermentOn?`Combine the ripe preferment with ${grams(finalFlour)} flour, ${grams(finalWater)} water, ${grams(salt)} salt, ${grams(finalSelectedYeast)} ${yeastType}, and ${grams(oil)} oil. Mix until no dry flour remains.${yeastType==='ADY'?bloom:''}`:`Combine ${grams(flour)} flour, ${grams(water)} water, ${grams(salt)} salt, ${grams(selectedYeast)} ${yeastType}, and ${grams(oil)} oil. Mix until no dry flour remains.${bloom}`],['Rest and develop','Cover and rest for 20 minutes. Knead or use stretch-and-folds until the dough is smooth, elastic, and cohesive.'],['Divide and ball',`Divide into ${pizzas} portions of about ${Math.round(mixedPerBall)} g. After the ${Math.round(lossPct*100)}% handling allowance, each should provide about ${Math.round(usablePerBall)} g for a ${diameter}-inch pizza.`],['Cold ferment',`Refrigerate at ${displayTemp(storageF)} for about ${finalHours.toFixed(1)} hours${extraHours?', then hold one additional day':''}. The dough should become airy and relaxed.`],['Open the dough',`Let the dough lose its chill if it feels tight. Gently press and stretch each ball to ${diameter} inches; do not use a rolling pin.`],['Top and bake',`Use a light layer of sauce. Bake at ${displayTemp(bakeTempF)} in the ${$('oven').value.toLowerCase()} for ${bakeDuration}, rotating as needed for even browning.`]].filter(Boolean);
-    $('recipeSteps').innerHTML=steps.map(([title,text],i)=>`<article class="step"><span class="number">${i+1}</span><div><h3>${title}</h3><p>${text}</p></div></article>`).join('');
-  }
-  $('tempUnit').dataset.previous='F';
-  $('tempUnit').addEventListener('change',switchTemperatureUnit);
-  controls.forEach(el=>{if(el.id!=='tempUnit')el.addEventListener('input',calculate)});
-  updateTemperatureLabels();calculate();renderFavorites();
+const $=id=>document.getElementById(id);
+const manualIds=['style','pizzas','diameter','thickness','lossPct','hydration','saltPct','yeastType','yeastPct','oilPct','flour','primaryPct','secondary','secondaryPct','usePreferment','prefermentPct','prefermentHydration','prefermentYeast','prefermentTemp','prefermentHours','tempUnit','storageTemp','bakeTime','extraDay','oven','pizzaOvenTemp','homeOvenTemp'];
+const controls=document.querySelectorAll('input,select');
+const tempInputs=['prefermentTemp','storageTemp','pizzaOvenTemp','homeOvenTemp'];
+const tempLabels={F:['Temp °F','Storage temp °F','Pizza oven °F','Home oven °F'],C:['Temp °C','Storage temp °C','Pizza oven °C','Home oven °C']};
+const yeastNames={IDY:'Instant dry yeast (IDY)',ADY:'Active dry yeast (ADY)',Fresh:'Fresh/compressed yeast'};
+const yeastFactors={IDY:1,ADY:1.25,Fresh:3};
+const favKey='doughwrite-favorites-v5';
+const grams=n=>`${n.toFixed(1)}g`,fToC=f=>(f-32)*5/9,cToF=c=>c*9/5+32,fmtTemp=n=>Math.round(n*10)/10;
+const tomorrow=new Date();tomorrow.setDate(tomorrow.getDate()+2);tomorrow.setHours(18,0,0,0);$('bakeTime').value=new Date(tomorrow-tomorrow.getTimezoneOffset()*60000).toISOString().slice(0,16);
+function getManual(){const out={};manualIds.forEach(id=>{const e=$(id);out[id]=e.type==='checkbox'?e.checked:e.value});return out}
+function setManual(d){manualIds.forEach(id=>{if(d[id]===undefined)return;const e=$(id);e.type==='checkbox'?e.checked=!!d[id]:e.value=d[id]});updateTemperatureLabels();calculate()}
+function favorites(){try{return JSON.parse(localStorage.getItem(favKey)||'[]')}catch{return[]}}
+function esc(s){return String(s).replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
+function renderFavorites(){const a=favorites(),r=$('favorites');r.innerHTML=a.length?a.map(f=>`<article class="favorite"><strong>${esc(f.name)}</strong><p>${f.data.style} · ${f.data.pizzas} pizzas · ${f.data.diameter} in · ${f.data.hydration}% hydration · ${f.data.yeastType||'IDY'}</p><button class="small load" data-load="${f.id}">Load</button><button class="small delete" data-delete="${f.id}">Delete</button></article>`).join(''):'<p class="empty">No saved recipes yet.</p>'}
+$('saveRecipe').onclick=()=>{const n=$('recipeName').value.trim()||`${$('style').value} ${$('diameter').value}-inch`,a=favorites();a.unshift({id:Date.now(),name:n,data:getManual()});localStorage.setItem(favKey,JSON.stringify(a));$('recipeName').value='';renderFavorites();document.querySelectorAll('.accordion')[7].open=true};
+$('favorites').onclick=e=>{const id=+e.target.dataset.load||+e.target.dataset.delete;if(!id)return;const a=favorites();if(e.target.dataset.load){const f=a.find(x=>x.id===id);if(f)setManual(f.data)}else{localStorage.setItem(favKey,JSON.stringify(a.filter(x=>x.id!==id)));renderFavorites()}};
+function updateTemperatureLabels(){const u=$('tempUnit').value;document.querySelectorAll('[data-temp-label]').forEach((e,i)=>e.textContent=tempLabels[u][i]);const rs=u==='F'?[[35,90],[32,75],[500,1000],[400,600]]:[[2,32],[0,24],[260,540],[205,315]];tempInputs.forEach((id,i)=>{$(id).min=rs[i][0];$(id).max=rs[i][1]})}
+function switchTemperatureUnit(){const old=$('tempUnit').dataset.previous||'F',now=$('tempUnit').value;if(old===now)return;tempInputs.forEach(id=>{const v=+$(id).value;if(Number.isFinite(v))$(id).value=fmtTemp(now==='C'?fToC(v):cToF(v))});$('tempUnit').dataset.previous=now;updateTemperatureLabels();calculate()}
+function toF(n){return $('tempUnit').value==='C'?cToF(n):n}function displayTemp(f){return $('tempUnit').value==='C'?`${Math.round(fToC(f))}°C`:`${Math.round(f)}°F`}
+function calculate(){
+const pizzas=Math.max(1,+$('pizzas').value||1),diameter=Math.max(8,+$('diameter').value||15),thickness=Math.max(.05,Math.min(.13,+$('thickness').value||.0625)),loss=Math.max(0,+$('lossPct').value||0)/100,hyd=(+$('hydration').value||68)/100,saltP=(+$('saltPct').value||0)/100,oilP=(+$('oilPct').value||0)/100,type=$('yeastType').value,factor=yeastFactors[type],selYP=(+$('yeastPct').value||0)/100,idyP=selYP/factor;
+$('blend').textContent=`Blend: ${+$('primaryPct').value||0}% ${$('flour').value} + ${+$('secondaryPct').value||0}% ${$('secondary').value}`;
+const usable=Math.max(150,Math.PI*(diameter/2)**2*thickness*37),usableTotal=usable*pizzas,mixTotal=usableTotal*(1+loss),ball=mixTotal/pizzas,flour=mixTotal/(1+hyd+saltP+idyP+oilP),water=flour*hyd,salt=flour*saltP,idy=flour*idyP,selected=idy*factor,oil=flour*oilP;
+$('totalDough').textContent=`${Math.round(mixTotal)}g`;$('perBall').textContent=`${Math.round(ball)}g`;$('baseDough').textContent=`${Math.round(usable)}g`;$('lossNote').textContent=`Divide into ${pizzas} balls of ${Math.round(ball)}g. This batch includes ${Math.round(loss*100)}% extra (${Math.round(mixTotal-usableTotal)}g total) for mixing/handling loss; if you lose little dough, each ball will be the displayed divide weight.`;
+$('ingredients').innerHTML=[['Flour',flour],['Water',water],['Salt',salt],[yeastNames[type],selected],['Oil',oil]].map(x=>`<tr><td>${x[0]}</td><td>${grams(x[1])}</td></tr>`).join('');$('yeastEquivalents').textContent=`This batch's ${grams(selected)} ${type} equals ${grams(idy)} IDY, ${grams(idy*1.25)} ADY, or ${grams(idy*3)} fresh yeast.`;$('yeastGuide').innerHTML=[['Instant dry yeast (IDY)','1.00×',idy],['Active dry yeast (ADY)','1.25×',idy*1.25],['Fresh/compressed yeast','3.00×',idy*3]].map(x=>`<tr><td>${x[0]}</td><td>${x[1]}</td><td>${grams(x[2])}</td></tr>`).join('');
+const prefOn=$('usePreferment').checked,pPct=(+$('prefermentPct').value||0)/100,pHyd=(+$('prefermentHydration').value||100)/100,pSelYP=(+$('prefermentYeast').value||0)/100,pIdyP=pSelYP/factor,pFlour=prefOn?flour*pPct:0,pWater=pFlour*pHyd,pIdy=pFlour*pIdyP,pYeast=pIdy*factor,fFlour=flour-pFlour,fWater=water-pWater,fYeast=Math.max(0,selected-pYeast);
+$('prefermentText').textContent=prefOn?`Preferment: ${grams(pFlour)} flour, ${grams(pWater)} water, ${grams(pYeast)} ${type}. Final dough: ${grams(fFlour)} flour, ${grams(fWater)} water, ${grams(salt)} salt, ${grams(fYeast)} ${type}, ${grams(oil)} oil.`:'Preferment is off. Mix all listed ingredients in the final dough.';
+const storage=toF(+$('storageTemp').value||40),prefTemp=toF(+$('prefermentTemp').value||70),prefHours=+$('prefermentHours').value||14,bake=new Date($('bakeTime').value),extra=$('extraDay').checked?24:0,now=new Date(),finalH=Math.max(2,(bake-now)/36e5-prefHours-extra),coldH=finalH+extra,pizzaOven=$('oven').value==='Pizza Oven',ovenF=pizzaOven?toF(+$('pizzaOvenTemp').value||750):toF(+$('homeOvenTemp').value||550),duration=pizzaOven?'2–4 minutes':'7–10 minutes',preheat=pizzaOven?25:45,start=new Date(bake-(prefHours+finalH+extra)*36e5),mix=new Date(start.getTime()+prefHours*36e5),format=d=>d.toLocaleString([],{month:'short',day:'numeric',year:'numeric',hour:'numeric',minute:'2-digit'});
+$('schedule').innerHTML=`<strong>Preferment start:</strong> ${format(start)}<br><strong>Final dough mix:</strong> ${format(mix)}<br><strong>Cold ferment:</strong> about ${coldH.toFixed(1)} hours at ${displayTemp(storage)}${extra?' (includes the extra day)':''}.<br><strong>Warm up:</strong> remove dough balls about 2–3 hours before baking, covered, until relaxed.<br><strong>Preheat:</strong> ${preheat} minutes before baking. ${displayTemp(ovenF)} ${$('oven').value.toLowerCase()}: ${duration}.`;
+let warning='';if(coldH>40)warning=`<strong>Long cold-fermentation note:</strong> This plan is about ${coldH.toFixed(0)} hours cold. At ${displayTemp(storage)}, monitor the dough. If it becomes very puffy, weak, or difficult to handle, bake sooner or reduce yeast next time.`;else if(storage>42)warning=`<strong>Temperature note:</strong> ${displayTemp(storage)} is relatively warm for a long cold ferment. Watch for faster expansion and consider using less yeast or baking sooner.`;else warning='<strong>First-bake tip:</strong> Dust lightly with flour or semolina when opening the dough. Use only enough to prevent sticking; excess bench flour can scorch in a hot oven.';$('fermentationWarning').innerHTML=warning;
+const bloom=type==='ADY'?' Bloom the ADY in a portion of the formula water at 100–110°F for about 5 minutes, then subtract that water from the listed water.':'';const steps=[prefOn&&['Make the preferment',`About ${prefHours} hours before final mixing, combine ${grams(pFlour)} flour, ${grams(pWater)} water, and ${grams(pYeast)} ${type}. Cover loosely and ferment at ${displayTemp(prefTemp)} until bubbly and expanded.${bloom}`],['Mix the final dough',prefOn?`Combine the ripe preferment with ${grams(fFlour)} flour, ${grams(fWater)} water, ${grams(salt)} salt, ${grams(fYeast)} ${type}, and ${grams(oil)} oil. Mix until no dry flour remains.${type==='ADY'?bloom:''}`:`Combine ${grams(flour)} flour, ${grams(water)} water, ${grams(salt)} salt, ${grams(selected)} ${type}, and ${grams(oil)} oil. Mix until no dry flour remains.${bloom}`],['Rest and develop','Cover and rest for 20 minutes. Knead or use stretch-and-folds until smooth, elastic, and cohesive.'],['Divide and ball',`Divide into ${pizzas} balls of about ${Math.round(ball)}g each. The batch includes handling allowance, so do not intentionally remove dough from every ball.`],['Cold ferment',`Refrigerate at ${displayTemp(storage)} for about ${coldH.toFixed(1)} hours. Remove covered dough balls 2–3 hours before baking, until relaxed and easy to open.`],['Open the dough',`Gently press and stretch each ball to ${diameter} inches; do not use a rolling pin. Use just enough flour or semolina to prevent sticking.`],['Top and bake',`Use a light layer of sauce. Bake at ${displayTemp(ovenF)} in the ${$('oven').value.toLowerCase()} for ${duration}, rotating as needed for even browning.`]].filter(Boolean);$('recipeSteps').innerHTML=steps.map((x,i)=>`<article class="step"><span class="number">${i+1}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div></article>`).join('');
+}
+$('tempUnit').dataset.previous='F';$('tempUnit').onchange=switchTemperatureUnit;controls.forEach(e=>{if(e.id!=='tempUnit')e.addEventListener('input',calculate)});updateTemperatureLabels();calculate();renderFavorites();
 </script>
 </body>
 </html>
