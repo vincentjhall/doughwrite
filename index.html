@@ -5,126 +5,109 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Doughwrite</title>
   <style>
-    :root {
-      --bg: #f8f0e7;
-      --card: #fffaf3;
-      --ink: #2d170d;
-      --brown: #73391d;
-      --orange: #e56d18;
-      --line: #dfc2aa;
-      --muted: #76655a;
-      --green: #edf7e8;
-      --warn: #fff2d8;
-    }
-    * { box-sizing: border-box; }
-    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    main { max-width: 760px; margin: auto; padding: 16px 12px 42px; }
-    header { border-bottom: 4px solid var(--orange); padding: 4px 0 14px; margin-bottom: 16px; }
-    h1, h2, h3 { font-family: Georgia, serif; }
-    h1 { margin: 0; color: var(--brown); font-size: clamp(2.3rem, 10vw, 3.7rem); letter-spacing: -.06em; }
-    h1 span { color: var(--orange); }
-    header p { margin: 5px 0 0; color: var(--muted); font-size: .86rem; }
-    section, details { margin-top: 11px; }
-    .card, .panel { background: var(--card); border: 1.5px solid var(--line); border-radius: 12px; padding: 13px; }
-    h2 { color: var(--brown); font-size: 1.5rem; margin: 0 0 12px; }
-    h3 { color: var(--brown); margin: 0 0 5px; font-size: 1rem; }
-    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    label { display: block; font-weight: 800; color: var(--brown); font-size: .78rem; }
-    input, select { display: block; width: 100%; min-height: 38px; margin-top: 5px; padding: 8px 9px; border: 1.5px solid var(--line); border-radius: 8px; background: #fffdf9; color: var(--ink); font: 700 .92rem -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .check { display: flex; align-items: center; gap: 8px; }
-    .check input { width: 20px; min-height: 20px; margin: 0; }
-    .wide { grid-column: 1 / -1; }
-    .help { margin: 5px 0 0; color: var(--muted); font-size: .75rem; line-height: 1.35; }
-    .formula { margin-top: 11px; padding: 10px; background: #fff4e7; border-left: 4px solid var(--orange); border-radius: 7px; color: var(--brown); font-size: .82rem; line-height: 1.45; }
-    summary { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; background: var(--card); border: 1.5px solid var(--line); border-radius: 10px; color: var(--brown); cursor: pointer; font-size: .91rem; font-weight: 900; }
-    summary::-webkit-details-marker { display: none; }
-    summary::after { content: "+"; color: var(--orange); font-size: 1.2rem; }
-    details[open] summary { border-radius: 10px 10px 0 0; }
-    details[open] summary::after { content: "−"; }
-    .panel { border-top: 0; border-radius: 0 0 10px 10px; }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
-    .stat { padding: 11px 4px; background: #fff5ea; border: 1.5px solid var(--line); border-radius: 9px; text-align: center; }
-    .stat b { display: block; color: var(--orange); font: 800 clamp(1.25rem, 6vw, 1.8rem) Georgia, serif; }
-    .stat span { display: block; margin-top: 3px; color: var(--muted); font-size: .58rem; font-weight: 900; text-transform: uppercase; }
-    table { width: 100%; border-collapse: collapse; font-size: .86rem; }
-    th, td { padding: 8px 3px; border-bottom: 1px solid var(--line); text-align: left; }
-    th { color: var(--brown); font-size: .74rem; }
-    td:last-child, th:last-child { text-align: right; }
-    .preferment { margin-top: 11px; padding: 10px; border: 1px solid #d7e9cf; border-radius: 9px; background: var(--green); }
-    .preferment strong { color: var(--brown); font-size: .86rem; }
-    .prefgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 8px; }
-    .prefgrid div { padding: 7px; border-radius: 6px; background: #ffffff99; }
-    .prefgrid span { display: block; color: var(--muted); font-size: .6rem; font-weight: 800; text-transform: uppercase; }
-    .prefgrid b { display: block; margin-top: 2px; color: var(--brown); font-size: .84rem; }
-    .hidden { display: none !important; }
-    .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin-top: 12px; }
-    .timecard { padding: 9px; border: 1.5px solid var(--line); border-radius: 9px; background: #fff5ea; }
-    .timecard span { display: block; color: var(--muted); font-size: .62rem; font-weight: 900; text-transform: uppercase; }
-    .timecard b { display: block; margin-top: 4px; color: var(--brown); font: 800 1rem Georgia, serif; }
-    .timecard small { display: block; margin-top: 3px; color: var(--muted); font-size: .67rem; line-height: 1.3; }
-    .callout { margin-top: 10px; padding: 10px; border-left: 4px solid var(--orange); background: #fff4e7; font-size: .84rem; line-height: 1.4; }
-    .texturegrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .texturecard { min-height: 0; padding: 9px; border: 1px solid var(--line); border-radius: 8px; background: #fffdf9; color: var(--ink); text-align: left; }
-    .texturecard strong { display: block; color: var(--brown); font-size: .82rem; }
-    .texturecard span { display: block; margin-top: 4px; color: var(--muted); font-size: .73rem; line-height: 1.3; }
-    .texturecard.selected { border: 2px solid var(--orange); background: #fff4e7; }
-    .step { display: grid; grid-template-columns: 27px 1fr; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--line); }
-    .step:last-child { border-bottom: 0; }
-    .number { display: grid; place-items: center; width: 25px; height: 25px; border-radius: 50%; background: var(--orange); color: white; font-size: .75rem; font-weight: 900; }
-    .step p { margin: 0; font-size: .85rem; line-height: 1.4; }
-    button { min-height: 38px; padding: 9px 11px; border: 0; border-radius: 8px; background: var(--orange); color: #fff; cursor: pointer; font-size: .84rem; font-weight: 900; }
-    button.secondary { background: var(--brown); }
-    .save { display: flex; align-items: end; gap: 8px; }
-    .save label { flex: 1; }
-    .saved { padding: 10px; border: 1px solid var(--line); border-radius: 8px; margin-top: 8px; }
-    .saved strong { color: var(--brown); }
-    .saved p { margin: 4px 0 8px; color: var(--muted); font-size: .76rem; }
-    .small { min-height: auto; margin-right: 5px; padding: 6px 8px; font-size: .74rem; }
-    @media (max-width: 380px) { .grid, .stats, .timeline, .texturegrid { grid-template-columns: 1fr; } .prefgrid { grid-template-columns: 1fr 1fr; } .save { display: block; } .save button { width: 100%; margin-top: 8px; } }
+    :root { --bg:#f8f0e7; --card:#fffaf3; --ink:#2d170d; --brown:#73391d; --orange:#e56d18; --line:#dfc2aa; --muted:#76655a; --green:#edf7e8; --warn:#fff2d8; --bad:#fff0ed; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    main { max-width:760px; margin:auto; padding:16px 12px 42px; }
+    header { border-bottom:4px solid var(--orange); padding:4px 0 14px; margin-bottom:16px; }
+    h1,h2,h3 { font-family:Georgia,serif; }
+    h1 { margin:0; color:var(--brown); font-size:clamp(2.3rem,10vw,3.7rem); letter-spacing:-.06em; }
+    h1 span { color:var(--orange); }
+    header p { margin:5px 0 0; color:var(--muted); font-size:.86rem; }
+    section,details { margin-top:11px; }
+    .card,.panel { background:var(--card); border:1.5px solid var(--line); border-radius:12px; padding:13px; }
+    h2 { color:var(--brown); font-size:1.5rem; margin:0 0 12px; }
+    h3 { color:var(--brown); margin:0 0 5px; font-size:1rem; }
+    .grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
+    .wide { grid-column:1/-1; }
+    label { display:block; color:var(--brown); font-size:.78rem; font-weight:800; }
+    input,select { display:block; width:100%; min-height:38px; margin-top:5px; padding:8px 9px; border:1.5px solid var(--line); border-radius:8px; background:#fffdf9; color:var(--ink); font:700 .92rem -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; }
+    .check { display:flex; align-items:center; gap:8px; }
+    .check input { width:20px; min-height:20px; margin:0; }
+    .help { margin:5px 0 0; color:var(--muted); font-size:.75rem; line-height:1.38; }
+    .formula { margin-top:11px; padding:10px; border-left:4px solid var(--orange); border-radius:7px; background:#fff4e7; color:var(--brown); font-size:.82rem; line-height:1.45; }
+    .hidden { display:none!important; }
+    .preferment { margin-top:11px; padding:10px; border:1px solid #d7e9cf; border-radius:9px; background:var(--green); }
+    .preferment strong { color:var(--brown); font-size:.86rem; }
+    .prefgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:8px; }
+    .prefgrid div { padding:7px; border-radius:6px; background:#ffffff99; }
+    .prefgrid span { display:block; color:var(--muted); font-size:.6rem; font-weight:800; text-transform:uppercase; }
+    .prefgrid b { display:block; margin-top:2px; color:var(--brown); font-size:.84rem; }
+    .timeline { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin-top:12px; }
+    .timecard { min-width:0; padding:9px; border:1.5px solid var(--line); border-radius:9px; background:#fff5ea; }
+    .timecard span { display:block; color:var(--muted); font-size:.62rem; font-weight:900; text-transform:uppercase; }
+    .timecard b { display:block; margin-top:4px; color:var(--brown); font:800 1rem Georgia,serif; white-space:nowrap; }
+    .timecard small { display:block; margin-top:3px; color:var(--muted); font-size:.67rem; line-height:1.3; }
+    .callout { margin-top:10px; padding:10px; border-left:4px solid var(--orange); background:#fff4e7; font-size:.84rem; line-height:1.43; }
+    summary { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border:1.5px solid var(--line); border-radius:10px; background:var(--card); color:var(--brown); cursor:pointer; font-size:.91rem; font-weight:900; }
+    summary::-webkit-details-marker { display:none; }
+    summary::after { content:"+"; color:var(--orange); font-size:1.2rem; }
+    details[open] summary { border-radius:10px 10px 0 0; }
+    details[open] summary::after { content:"−"; }
+    .panel { border-top:0; border-radius:0 0 10px 10px; }
+    .stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; }
+    .stat { min-width:0; padding:11px 4px; border:1.5px solid var(--line); border-radius:9px; background:#fff5ea; text-align:center; }
+    .stat b { display:block; overflow:hidden; color:var(--orange); font:800 clamp(1.25rem,6vw,1.8rem) Georgia,serif; text-overflow:ellipsis; }
+    .stat span { display:block; margin-top:3px; color:var(--muted); font-size:.58rem; font-weight:900; text-transform:uppercase; }
+    table { width:100%; border-collapse:collapse; font-size:.86rem; }
+    th,td { padding:8px 3px; border-bottom:1px solid var(--line); text-align:left; }
+    th { color:var(--brown); font-size:.74rem; }
+    td:last-child,th:last-child { text-align:right; }
+    .score { display:grid; grid-template-columns:78px 1fr; gap:10px; padding:10px; border:1.5px solid var(--orange); border-radius:9px; background:#fff4e7; }
+    .score b { align-self:center; color:var(--orange); font:900 2.05rem Georgia,serif; text-align:center; }
+    .score strong { color:var(--brown); font-size:.97rem; }
+    .score p { margin:3px 0 0; color:var(--muted); font-size:.77rem; line-height:1.35; }
+    .ratings { display:grid; gap:7px; margin-top:10px; }
+    .rating { padding:9px; border:1px solid var(--line); border-radius:8px; font-size:.82rem; line-height:1.36; }
+    .rating strong { display:block; color:var(--brown); }
+    .rating.good { border-left:4px solid #4b9b4b; background:var(--green); }
+    .rating.caution { border-left:4px solid var(--orange); background:var(--warn); }
+    .rating.risk { border-left:4px solid #b53d25; background:var(--bad); }
+    .texture { margin-top:12px; padding-top:12px; border-top:1px solid var(--line); }
+    .texture h3 { font-size:1.08rem; }
+    .texturegrid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; }
+    button { min-height:38px; padding:9px 11px; border:0; border-radius:8px; background:var(--orange); color:#fff; cursor:pointer; font-size:.84rem; font-weight:900; }
+    button.secondary { background:var(--brown); }
+    .texturecard { min-height:0; padding:10px; border:1px solid var(--line); border-radius:8px; background:#fffdf9; color:var(--ink); text-align:left; }
+    .texturecard strong { display:block; color:var(--brown); font-size:.84rem; }
+    .texturecard span { display:block; margin-top:4px; color:var(--muted); font-size:.73rem; line-height:1.32; }
+    .texturecard.selected { border:2px solid var(--orange); background:#fff4e7; }
+    .step { display:grid; grid-template-columns:27px 1fr; gap:8px; padding:10px 0; border-bottom:1px solid var(--line); }
+    .step:last-child { border-bottom:0; }
+    .number { display:grid; place-items:center; width:25px; height:25px; border-radius:50%; background:var(--orange); color:white; font-size:.75rem; font-weight:900; }
+    .step p { margin:0; font-size:.85rem; line-height:1.4; }
+    .save { display:flex; align-items:end; gap:8px; }
+    .save label { flex:1; }
+    .saved { padding:10px; border:1px solid var(--line); border-radius:8px; margin-top:8px; }
+    .saved strong { color:var(--brown); }
+    .saved p { margin:4px 0 8px; color:var(--muted); font-size:.76rem; }
+    .small { min-height:auto; margin-right:5px; padding:6px 8px; font-size:.74rem; }
+    @media(max-width:480px) { .timeline { grid-template-columns:1fr; } }
+    @media(max-width:380px) { .grid,.stats,.texturegrid { grid-template-columns:1fr; } .prefgrid { grid-template-columns:1fr 1fr; } .save { display:block; } .save button { width:100%; margin-top:8px; } }
   </style>
 </head>
 <body>
   <main>
-    <header>
-      <h1>Dough<span>write</span></h1>
-      <p>Precision pizza dough, from formula to fire.</p>
-    </header>
+    <header><h1>Dough<span>write</span></h1><p>Precision pizza dough, from formula to fire.</p></header>
 
     <section class="card">
       <h2>Formula</h2>
       <div class="grid">
-        <label>Style
-          <select id="style">
-            <option>New York</option>
-            <option>Neapolitan</option>
-            <option>Sicilian</option>
-          </select>
-        </label>
+        <label>Style<select id="style"><option>New York</option><option>Neapolitan</option><option>Sicilian</option></select></label>
         <label>Pizzas<input id="pizzas" type="number" min="1" value="3"></label>
         <label>Diameter (in)<input id="diameter" type="number" min="8" max="20" step=".25" value="15"></label>
         <label>Thickness factor<input id="thickness" type="number" min=".01" max=".2" step=".0025" value=".0625"></label>
         <label>Hydration %<input id="hydration" type="number" min="50" max="85" step=".5" value="68"></label>
         <label>Salt %<input id="saltPct" type="number" min="0" max="5" step=".1" value="2"></label>
-        <label>Yeast type
-          <select id="yeastType">
-            <option value="IDY">Instant dry (IDY)</option>
-            <option value="ADY">Active dry (ADY)</option>
-            <option value="Fresh">Fresh/compressed</option>
-          </select>
-        </label>
+        <label>Yeast type<select id="yeastType"><option value="IDY">Instant dry (IDY)</option><option value="ADY">Active dry (ADY)</option><option value="Fresh">Fresh/compressed</option></select></label>
         <label>Yeast %<input id="yeastPct" type="number" min="0" max="2" step=".01" value=".10"></label>
         <label>Oil %<input id="oilPct" type="number" min="0" max="10" step=".1" value="2"></label>
-        <label>Primary flour
-          <select id="flour"><option>Bread Flour</option><option>00 Pizza Flour</option><option>All-purpose Flour</option></select>
-        </label>
+        <label>Primary flour<select id="flour"><option>Bread Flour</option><option>00 Pizza Flour</option><option>All-purpose Flour</option></select></label>
         <label>Primary %<input id="primaryPct" type="number" min="0" max="100" value="100"></label>
-        <label>Secondary flour
-          <select id="secondary"><option>00 Pizza Flour</option><option>Bread Flour</option><option>All-purpose Flour</option></select>
-        </label>
+        <label>Secondary flour<select id="secondary"><option>00 Pizza Flour</option><option>Bread Flour</option><option>All-purpose Flour</option></select></label>
         <label>Secondary %<input id="secondaryPct" type="number" min="0" max="100" value="0"></label>
       </div>
-      <p class="help" id="blend"></p>
-      <div class="formula" id="formulaText"></div>
+      <p class="help" id="blend"></p><div class="formula" id="formulaText"></div>
     </section>
 
     <section class="card">
@@ -137,312 +120,101 @@
         <label>Temp °F<input id="prefermentTemp" type="number" value="70"></label>
         <label>Hours<input id="prefermentHours" type="number" min="1" max="30" value="14"></label>
       </div>
-      <div class="preferment" id="prefSummary">
-        <strong>Preferment breakdown</strong>
-        <div class="prefgrid">
-          <div><span>Flour</span><b id="pf">—</b></div>
-          <div><span>Water</span><b id="pw">—</b></div>
-          <div><span>Yeast</span><b id="py">—</b></div>
-          <div><span>Final flour</span><b id="ff">—</b></div>
-          <div><span>Final water</span><b id="fw">—</b></div>
-          <div><span>Final yeast</span><b id="fy">—</b></div>
-        </div>
-        <p class="help" id="prefNote"></p>
-      </div>
+      <div class="preferment" id="prefSummary"><strong>Preferment breakdown</strong><div class="prefgrid"><div><span>Flour</span><b id="pf">—</b></div><div><span>Water</span><b id="pw">—</b></div><div><span>Yeast</span><b id="py">—</b></div><div><span>Final flour</span><b id="ff">—</b></div><div><span>Final water</span><b id="fw">—</b></div><div><span>Final yeast</span><b id="fy">—</b></div></div><p class="help" id="prefNote"></p></div>
     </section>
 
     <section class="card">
       <h2>Timeline &amp; oven</h2>
-      <div class="grid">
-        <label>Storage temp °F<input id="storageTemp" type="number" value="38"></label>
-        <label>Cold ferment hours<input id="fermentHours" type="number" min="2" max="96" value="24"></label>
-        <label>Oven
-          <select id="oven"><option value="Pizza Oven">Pizza Oven</option><option value="Home Oven">Home Oven</option></select>
-        </label>
-        <label>Oven temp °F<input id="ovenTemp" type="number" value="750"></label>
-      </div>
-      <div class="timeline">
-        <div class="timecard"><span>Cold ferment</span><b id="coldTime">—</b><small id="coldDetail">—</small></div>
-        <div class="timecard"><span>Warm up</span><b>2–3 hr</b><small>Covered at room temperature</small></div>
-        <div class="timecard"><span>Bake</span><b id="bakeTime">—</b><small id="bakeDetail">—</small></div>
-      </div>
+      <div class="grid"><label>Storage temp °F<input id="storageTemp" type="number" value="38"></label><label>Cold ferment hours<input id="fermentHours" type="number" min="2" max="96" value="24"></label><label>Oven<select id="oven"><option value="Pizza Oven">Pizza Oven</option><option value="Home Oven">Home Oven</option></select></label><label>Oven temp °F<input id="ovenTemp" type="number" value="750"></label></div>
+      <div class="timeline"><div class="timecard"><span>Cold ferment</span><b id="coldTime">—</b><small id="coldDetail">—</small></div><div class="timecard"><span>Warm up</span><b>2–3 hr</b><small>Covered at room temperature</small></div><div class="timecard"><span>Bake</span><b id="bakeTime">—</b><small id="bakeDetail">—</small></div></div>
       <div class="callout" id="timelineAdvice"></div>
     </section>
 
-    <details open>
-      <summary>Dough results</summary>
-      <div class="panel">
-        <div class="stats">
-          <div class="stat"><b id="total">—</b><span>Mix</span></div>
-          <div class="stat"><b id="ball">—</b><span>Divide</span></div>
-          <div class="stat"><b id="target">—</b><span>Per pie</span></div>
-        </div>
-        <p class="help" id="resultsText"></p>
-      </div>
-    </details>
+    <details open><summary>Dough results</summary><div class="panel"><div class="stats"><div class="stat"><b id="total">—</b><span>Mix</span></div><div class="stat"><b id="ball">—</b><span>Divide</span></div><div class="stat"><b id="target">—</b><span>Per pie</span></div></div><p class="help" id="resultsText"></p></div></details>
 
-    <details open>
-      <summary>Ingredients</summary>
-      <div class="panel">
-        <table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody id="ingredients"></tbody></table>
-        <p class="help" id="equiv"></p>
-      </div>
-    </details>
+    <details open><summary>Ingredients</summary><div class="panel"><table><thead><tr><th>Ingredient</th><th>Amount</th></tr></thead><tbody id="ingredients"></tbody></table><p class="help" id="equiv"></p></div></details>
 
-    <details open>
-      <summary>Crust direction</summary>
-      <div class="panel">
-        <div class="texturegrid">
-          <button type="button" class="texturecard" data-texture="crisp"><strong>Harder / crisper</strong><span id="crispLabel">Style-specific crisp settings</span></button>
-          <button type="button" class="texturecard" data-texture="soft"><strong>Softer / chewier</strong><span id="softLabel">Style-specific soft settings</span></button>
-        </div>
-        <p class="help" id="textureNote"></p>
-      </div>
-    </details>
+    <details open><summary>Make better decisions</summary><div class="panel"><div class="score"><b id="score">—</b><div><strong id="scoreTitle">Recipe rating</strong><p id="scoreText">Updates automatically.</p></div></div><div class="ratings" id="ratings"></div></div></details>
 
-    <details open>
-      <summary>Recipe steps</summary>
-      <div class="panel" id="steps"></div>
-    </details>
+    <details open><summary>Crust direction</summary><div class="panel"><div class="texture"><h3>Choose your crust direction</h3><div class="texturegrid"><button type="button" class="texturecard" data-texture="crisp"><strong>Harder / crisper</strong><span id="crispLabel">Style-specific crisp settings</span></button><button type="button" class="texturecard" data-texture="soft"><strong>Softer / chewier</strong><span id="softLabel">Style-specific soft settings</span></button></div><p class="help" id="textureNote"></p></div></div></details>
 
-    <section class="card">
-      <h2>Save recipe</h2>
-      <div class="save">
-        <label>Recipe name<input id="recipeName" type="text" placeholder="Friday NY 15-inch"></label>
-        <button id="saveRecipe" type="button">Save</button>
-      </div>
-      <p class="help">Saved recipes stay on this device in your browser.</p>
-      <div id="savedRecipes"></div>
-    </section>
+    <details open><summary>Recipe steps</summary><div class="panel" id="steps"></div></details>
+
+    <section class="card"><h2>Save recipe</h2><div class="save"><label>Recipe name<input id="recipeName" type="text" placeholder="Friday NY 15-inch"></label><button id="saveRecipe" type="button">Save</button></div><p class="help">Saved recipes stay on this device in your browser.</p><div id="savedRecipes"></div></section>
   </main>
 
   <script>
     (() => {
       'use strict';
-
       const $ = id => document.getElementById(id);
-      const storageKey = 'doughwrite-recipes-v3';
-      const ids = [
-        'pizzas', 'diameter', 'thickness', 'hydration', 'saltPct', 'yeastType',
-        'yeastPct', 'oilPct', 'flour', 'primaryPct', 'secondary', 'secondaryPct',
-        'usePreferment', 'prefermentPct', 'prefermentHydration', 'prefermentYeast',
-        'prefermentTemp', 'prefermentHours', 'storageTemp', 'fermentHours', 'oven', 'ovenTemp'
-      ];
-
-      const yeastFactors = { IDY: 1, ADY: 1.25, Fresh: 3 };
-
+      const storageKey = 'doughwrite-recipes-v4';
+      const ids = ['pizzas','diameter','thickness','hydration','saltPct','yeastType','yeastPct','oilPct','flour','primaryPct','secondary','secondaryPct','usePreferment','prefermentPct','prefermentHydration','prefermentYeast','prefermentTemp','prefermentHours','storageTemp','fermentHours','oven','ovenTemp'];
+      const yeastFactors = { IDY:1, ADY:1.25, Fresh:3 };
       const profiles = {
-        'New York': { pizzas: 3, diameter: 15, thickness: .0625, hydration: 68, saltPct: 2, yeastType: 'IDY', yeastPct: .10, oilPct: 2, flour: 'Bread Flour', primaryPct: 100, secondary: '00 Pizza Flour', secondaryPct: 0, usePreferment: true, prefermentPct: 10, prefermentHydration: 100, prefermentYeast: .10, prefermentTemp: 70, prefermentHours: 14, storageTemp: 38, fermentHours: 24, oven: 'Pizza Oven', ovenTemp: 750 },
-        'Neapolitan': { pizzas: 3, diameter: 12, thickness: .06, hydration: 65, saltPct: 2.8, yeastType: 'IDY', yeastPct: .06, oilPct: 0, flour: '00 Pizza Flour', primaryPct: 100, secondary: 'Bread Flour', secondaryPct: 0, usePreferment: false, prefermentPct: 0, prefermentHydration: 100, prefermentYeast: .05, prefermentTemp: 70, prefermentHours: 12, storageTemp: 38, fermentHours: 18, oven: 'Pizza Oven', ovenTemp: 850 },
-        'Sicilian': { pizzas: 2, diameter: 14, thickness: .1, hydration: 75, saltPct: 2.2, yeastType: 'IDY', yeastPct: .15, oilPct: 5, flour: 'Bread Flour', primaryPct: 100, secondary: '00 Pizza Flour', secondaryPct: 0, usePreferment: true, prefermentPct: 20, prefermentHydration: 100, prefermentYeast: .10, prefermentTemp: 70, prefermentHours: 12, storageTemp: 38, fermentHours: 12, oven: 'Home Oven', ovenTemp: 550 }
+        'New York': { pizzas:3, diameter:15, thickness:.0625, hydration:68, saltPct:2, yeastType:'IDY', yeastPct:.10, oilPct:2, flour:'Bread Flour', primaryPct:100, secondary:'00 Pizza Flour', secondaryPct:0, usePreferment:true, prefermentPct:10, prefermentHydration:100, prefermentYeast:.10, prefermentTemp:70, prefermentHours:14, storageTemp:38, fermentHours:24, oven:'Pizza Oven', ovenTemp:750 },
+        'Neapolitan': { pizzas:3, diameter:12, thickness:.06, hydration:65, saltPct:2.8, yeastType:'IDY', yeastPct:.06, oilPct:0, flour:'00 Pizza Flour', primaryPct:100, secondary:'Bread Flour', secondaryPct:0, usePreferment:false, prefermentPct:0, prefermentHydration:100, prefermentYeast:.05, prefermentTemp:70, prefermentHours:12, storageTemp:38, fermentHours:18, oven:'Pizza Oven', ovenTemp:850 },
+        'Sicilian': { pizzas:2, diameter:14, thickness:.1, hydration:75, saltPct:2.2, yeastType:'IDY', yeastPct:.15, oilPct:5, flour:'Bread Flour', primaryPct:100, secondary:'00 Pizza Flour', secondaryPct:0, usePreferment:true, prefermentPct:20, prefermentHydration:100, prefermentYeast:.10, prefermentTemp:70, prefermentHours:12, storageTemp:38, fermentHours:12, oven:'Home Oven', ovenTemp:550 }
       };
-
       const textures = {
-        'New York': { default: [68, 2, .0625, 'classic NY balance'], crisp: [64, .5, .0575, '64% hydration · 0.5% oil · thin NY base'], soft: [70, 2.5, .075, '70% hydration · 2.5% oil · chewy NY base'] },
-        'Neapolitan': { default: [65, 0, .06, 'classic Neapolitan balance'], crisp: [61, 0, .0525, '61% hydration · no oil · lean, crisp edge'], soft: [68, 0, .065, '68% hydration · no oil · soft, airy cornicione'] },
-        'Sicilian': { default: [75, 5, .1, 'classic pan balance'], crisp: [70, 6, .09, '70% hydration · 6% oil · crisp pan-fried base'], soft: [78, 4, .115, '78% hydration · 4% oil · thick, soft interior'] }
+        'New York': { default:[68,2,.0625,'classic NY balance'], crisp:[64,.5,.0575,'64% hydration · 0.5% oil · thin NY base'], soft:[70,2.5,.075,'70% hydration · 2.5% oil · chewy NY base'] },
+        'Neapolitan': { default:[65,0,.06,'classic Neapolitan balance'], crisp:[61,0,.0525,'61% hydration · no oil · lean, crisp edge'], soft:[68,0,.065,'68% hydration · no oil · soft, airy cornicione'] },
+        'Sicilian': { default:[75,5,.1,'classic pan balance'], crisp:[70,6,.09,'70% hydration · 6% oil · crisp pan-fried base'], soft:[78,4,.115,'78% hydration · 4% oil · thick, soft interior'] }
       };
-
-      const number = (id, fallback = 0) => {
-        const value = Number($(id).value);
-        return Number.isFinite(value) ? value : fallback;
-      };
-
-      const grams = value => `${value.toFixed(1)}g`;
-
-      function currentData() {
-        const data = { style: $('style').value };
-        ids.forEach(id => {
-          const element = $(id);
-          data[id] = element.type === 'checkbox' ? element.checked : element.value;
-        });
-        return data;
-      }
-
-      /*
-       * Single source of truth for every dough-related calculation.
-       * Thickness contributes to doughPerPie. The resulting totalDough drives
-       * ingredients, preferment quantities, displayed results, steps, saved
-       * recipes, and any future export function. There is no handling-loss term.
-       */
+      const n = (id,fallback=0) => { const x=Number($(id).value); return Number.isFinite(x)?x:fallback; };
+      const g = value => `${value.toFixed(1)}g`;
+      function currentData() { const data={style:$('style').value}; ids.forEach(id=>{const e=$(id);data[id]=e.type==='checkbox'?e.checked:e.value;});return data; }
       function getRecipeMath(data) {
-        const pizzas = Math.max(1, Number(data.pizzas) || 1);
-        const diameter = Math.max(8, Number(data.diameter) || 15);
-        const thickness = Math.max(.01, Number(data.thickness) || .0625);
-        const hydration = (Number(data.hydration) || 0) / 100;
-        const saltPct = (Number(data.saltPct) || 0) / 100;
-        const oilPct = (Number(data.oilPct) || 0) / 100;
-        const yeastType = data.yeastType || 'IDY';
-        const yeastBasisPct = (Number(data.yeastPct) || 0) / 100;
-        const yeastFactor = yeastFactors[yeastType] || 1;
-
-        const area = Math.PI * (diameter / 2) ** 2;
-        const doughPerPie = area * thickness * 37;
-        const totalDough = doughPerPie * pizzas;
-        const flour = totalDough / (1 + hydration + saltPct + oilPct + yeastBasisPct);
-        const water = flour * hydration;
-        const salt = flour * saltPct;
-        const oil = flour * oilPct;
-        const yeast = flour * yeastBasisPct * yeastFactor;
-
-        const usePreferment = Boolean(data.usePreferment);
-        const prefermentFlour = usePreferment ? flour * (Number(data.prefermentPct) || 0) / 100 : 0;
-        const prefermentWater = prefermentFlour * (Number(data.prefermentHydration) || 0) / 100;
-        const prefermentYeast = prefermentFlour * (Number(data.prefermentYeast) || 0) / 100;
-
-        return {
-          pizzas, diameter, thickness, area, doughPerPie, totalDough,
-          hydration, saltPct, oilPct, yeastType, yeastBasisPct, yeastFactor,
-          flour, water, salt, oil, yeast, usePreferment,
-          prefermentFlour, prefermentWater, prefermentYeast,
-          finalFlour: flour - prefermentFlour,
-          finalWater: water - prefermentWater,
-          finalYeast: Math.max(0, yeast - prefermentYeast)
-        };
+        const pizzas=Math.max(1,Number(data.pizzas)||1), diameter=Math.max(8,Number(data.diameter)||15), thickness=Math.max(.01,Number(data.thickness)||.0625);
+        const hydration=(Number(data.hydration)||0)/100, saltPct=(Number(data.saltPct)||0)/100, oilPct=(Number(data.oilPct)||0)/100, yeastType=data.yeastType||'IDY', yeastBasisPct=(Number(data.yeastPct)||0)/100, yeastFactor=yeastFactors[yeastType]||1;
+        const area=Math.PI*(diameter/2)**2, doughPerPie=area*thickness*37, totalDough=doughPerPie*pizzas;
+        const flour=totalDough/(1+hydration+saltPct+oilPct+yeastBasisPct), water=flour*hydration, salt=flour*saltPct, oil=flour*oilPct, yeast=flour*yeastBasisPct*yeastFactor;
+        const usePreferment=Boolean(data.usePreferment), prefermentFlour=usePreferment?flour*(Number(data.prefermentPct)||0)/100:0, prefermentWater=prefermentFlour*(Number(data.prefermentHydration)||0)/100, prefermentYeast=prefermentFlour*(Number(data.prefermentYeast)||0)/100;
+        return {pizzas,diameter,thickness,area,doughPerPie,totalDough,hydration,saltPct,oilPct,yeastType,yeastBasisPct,yeastFactor,flour,water,salt,oil,yeast,usePreferment,prefermentFlour,prefermentWater,prefermentYeast,finalFlour:flour-prefermentFlour,finalWater:water-prefermentWater,finalYeast:Math.max(0,yeast-prefermentYeast)};
       }
-
-      function updateTextureLabels() {
-        const set = textures[$('style').value];
-        $('crispLabel').textContent = set.crisp[3];
-        $('softLabel').textContent = set.soft[3];
-        document.querySelectorAll('[data-texture]').forEach(button => button.classList.remove('selected'));
-        $('textureNote').textContent = `Default ${$('style').value} settings: ${set.default[3]}.`;
+      function updateTextureLabels() { const set=textures[$('style').value]; $('crispLabel').textContent=set.crisp[3]; $('softLabel').textContent=set.soft[3]; document.querySelectorAll('[data-texture]').forEach(b=>b.classList.remove('selected')); $('textureNote').textContent=`Default ${$('style').value} settings: ${set.default[3]}.`; }
+      function renderRatings(math,coldHours) {
+        const style=$('style').value, profile=textures[style].default, hydrationPct=math.hydration*100, saltPct=math.saltPct*100;
+        let score=100; const ratings=[];
+        const add=(deduction,type,title,text)=>{score-=deduction;ratings.push(`<div class="rating ${type}"><strong>${title}</strong>${text}</div>`);};
+        if(coldHours>=18&&coldHours<=48) add(0,'good','Fermentation: good range',`${coldHours} hr cold at ${n('storageTemp')}°F is a practical pizza-dough fermentation window.`);
+        else if(coldHours<18) add(8,'caution','Fermentation: short',`${coldHours} hr is a shorter cold ferment. Allow adequate warm proofing before opening.`);
+        else add(12,'caution','Fermentation: long',`${coldHours} hr can develop flavor but requires closer monitoring for overproofing.`);
+        const thicknessDelta=Math.abs(math.thickness-profile[2]), hydrationDelta=Math.abs(hydrationPct-profile[0]);
+        if(thicknessDelta<=.015&&hydrationDelta<=3) add(0,'good','Style fit: aligned',`${style} thickness (${math.thickness}) and hydration (${hydrationPct.toFixed(1)}%) are close to the house profile.`);
+        else if(thicknessDelta<=.03&&hydrationDelta<=6) add(5,'caution','Style fit: customized',`Thickness or hydration is outside the default ${style} range; expect a deliberate variation in structure and bake.`);
+        else add(12,'risk','Style fit: far from profile',`Thickness (${math.thickness}) and/or hydration (${hydrationPct.toFixed(1)}%) differs substantially from the ${style} baseline.`);
+        if(saltPct>=1.8&&saltPct<=2.8) add(0,'good','Salt: balanced',`${saltPct.toFixed(1)}% sits in a common pizza-dough working range.`);
+        else if(saltPct>=1.5&&saltPct<=3.0) add(4,'caution','Salt: review',`${saltPct.toFixed(1)}% is usable but outside the usual middle range for this calculator.`);
+        else add(9,'risk','Salt: outside typical range',`${saltPct.toFixed(1)}% may noticeably affect flavor, fermentation, and dough strength.`);
+        if(math.oilPct<=.05) add(0,'good','Oil: style appropriate',`${(math.oilPct*100).toFixed(1)}% oil supports the selected dough direction.`);
+        else add(4,'caution','Oil: enriched dough',`${(math.oilPct*100).toFixed(1)}% oil will make the dough more tender and may change crispness.`);
+        score=Math.max(0,Math.round(score)); $('score').textContent=`${score}%`; $('scoreTitle').textContent=score>=90?'Excellent fit':score>=75?'Solid plan':'Review before mixing'; $('scoreText').textContent='Industry-style checks update automatically from the current formula.'; $('ratings').innerHTML=ratings.join('');
       }
-
       function render() {
-        const data = currentData();
-        const math = getRecipeMath(data);
-        const coldHours = number('fermentHours');
-        const oven = $('oven').value;
-        const bakeTime = oven === 'Pizza Oven' ? '2–4 min' : '7–10 min';
-
-        $('total').textContent = `${Math.round(math.totalDough)}g`;
-        $('ball').textContent = `${Math.round(math.doughPerPie)}g`;
-        $('target').textContent = `${Math.round(math.doughPerPie)}g`;
-        $('resultsText').textContent = `${math.pizzas} × ${Math.round(math.doughPerPie)}g dough balls. Thickness factor is included in every result; no handling-loss allowance is added.`;
-        $('formulaText').textContent = `Dough per pie = π × (${math.diameter} ÷ 2)² × ${math.thickness} × 37 = ${Math.round(math.doughPerPie)}g. Total dough = ${Math.round(math.doughPerPie)}g × ${math.pizzas} = ${Math.round(math.totalDough)}g. Changing thickness recalculates all ingredient, preferment, step, and saved-recipe quantities.`;
-        $('blend').textContent = `Blend: ${number('primaryPct')}% ${$('flour').value} + ${number('secondaryPct')}% ${$('secondary').value}.`;
-
-        $('ingredients').innerHTML = [
-          ['Flour', math.flour],
-          ['Water', math.water],
-          ['Salt', math.salt],
-          [`${math.yeastType} yeast`, math.yeast],
-          ['Oil', math.oil]
-        ].map(([name, amount]) => `<tr><td>${name}</td><td>${grams(amount)}</td></tr>`).join('');
-
-        $('equiv').textContent = `Yeast equivalents: ${grams(math.yeast / math.yeastFactor)} IDY · ${grams(math.yeast / math.yeastFactor * 1.25)} ADY · ${grams(math.yeast / math.yeastFactor * 3)} fresh.`;
-        $('prefSummary').classList.toggle('hidden', !math.usePreferment);
-        if (math.usePreferment) {
-          $('pf').textContent = grams(math.prefermentFlour);
-          $('pw').textContent = grams(math.prefermentWater);
-          $('py').textContent = grams(math.prefermentYeast);
-          $('ff').textContent = grams(math.finalFlour);
-          $('fw').textContent = grams(math.finalWater);
-          $('fy').textContent = grams(math.finalYeast);
-          $('prefNote').textContent = `${number('prefermentPct')}% of the thickness-adjusted flour total, at ${number('prefermentHydration')}% hydration for ${number('prefermentHours')} hr at ${number('prefermentTemp')}°F.`;
-        }
-
-        $('coldTime').textContent = `${coldHours} hr`;
-        $('coldDetail').textContent = `At ${number('storageTemp')}°F`;
-        $('bakeTime').textContent = bakeTime;
-        $('bakeDetail').textContent = `${number('ovenTemp')}°F ${oven.toLowerCase()}`;
-        $('timelineAdvice').innerHTML = coldHours < 18
-          ? '<strong>Plan:</strong> Short fermentation—allow enough warm proofing before opening.'
-          : coldHours <= 48
-            ? '<strong>Plan:</strong> Reliable fermentation window. Warm covered dough 2–3 hours before baking.'
-            : '<strong>Plan:</strong> Long fermentation—keep cold and watch for overproofing.';
-
-        const steps = [
-          math.usePreferment ? ['Make preferment', `Combine ${grams(math.prefermentFlour)} flour, ${grams(math.prefermentWater)} water, and ${grams(math.prefermentYeast)} yeast; ferment ${number('prefermentHours')} hr.`] : null,
-          ['Mix', `Combine ${grams(math.finalFlour)} flour, ${grams(math.finalWater)} water, ${grams(math.salt)} salt, ${grams(math.finalYeast)} yeast, and ${grams(math.oil)} oil.`],
-          ['Develop dough', 'Rest 20 minutes, then knead or stretch-and-fold until smooth.'],
-          ['Divide and ball', `Divide into ${math.pizzas} balls at ${Math.round(math.doughPerPie)}g each.`],
-          ['Cold ferment', `${coldHours} hr at ${number('storageTemp')}°F; warm covered 2–3 hr before baking.`],
-          ['Bake', `Bake at ${number('ovenTemp')}°F for ${bakeTime}.`]
-        ].filter(Boolean);
-        $('steps').innerHTML = steps.map((step, index) => `<div class="step"><div class="number">${index + 1}</div><div><h3>${step[0]}</h3><p>${step[1]}</p></div></div>`).join('');
+        const data=currentData(), math=getRecipeMath(data), coldHours=n('fermentHours'), oven=$('oven').value, bake=oven==='Pizza Oven'?'2–4 min':'7–10 min';
+        $('total').textContent=`${Math.round(math.totalDough)}g`; $('ball').textContent=`${Math.round(math.doughPerPie)}g`; $('target').textContent=`${Math.round(math.doughPerPie)}g`;
+        $('resultsText').textContent=`${math.pizzas} × ${Math.round(math.doughPerPie)}g dough balls. Thickness factor is included in all dough, ingredient, preferment, and step quantities. No handling-loss allowance is added.`;
+        $('formulaText').textContent=`Dough per pie = π × (${math.diameter} ÷ 2)² × ${math.thickness} × 37 = ${Math.round(math.doughPerPie)}g. Total dough = ${Math.round(math.doughPerPie)}g × ${math.pizzas} = ${Math.round(math.totalDough)}g.`;
+        $('blend').textContent=`Blend: ${n('primaryPct')}% ${$('flour').value} + ${n('secondaryPct')}% ${$('secondary').value}.`;
+        $('ingredients').innerHTML=[['Flour',math.flour],['Water',math.water],['Salt',math.salt],[`${math.yeastType} yeast`,math.yeast],['Oil',math.oil]].map(([name,amount])=>`<tr><td>${name}</td><td>${g(amount)}</td></tr>`).join('');
+        $('equiv').textContent=`Yeast equivalents: ${g(math.yeast/math.yeastFactor)} IDY · ${g(math.yeast/math.yeastFactor*1.25)} ADY · ${g(math.yeast/math.yeastFactor*3)} fresh.`;
+        $('prefSummary').classList.toggle('hidden',!math.usePreferment); if(math.usePreferment){$('pf').textContent=g(math.prefermentFlour);$('pw').textContent=g(math.prefermentWater);$('py').textContent=g(math.prefermentYeast);$('ff').textContent=g(math.finalFlour);$('fw').textContent=g(math.finalWater);$('fy').textContent=g(math.finalYeast);$('prefNote').textContent=`${n('prefermentPct')}% of the thickness-adjusted flour total, at ${n('prefermentHydration')}% hydration for ${n('prefermentHours')} hr at ${n('prefermentTemp')}°F.`;}
+        $('coldTime').textContent=`${coldHours} hr`; $('coldDetail').textContent=`At ${n('storageTemp')}°F`; $('bakeTime').textContent=bake; $('bakeDetail').textContent=`${n('ovenTemp')}°F ${oven.toLowerCase()}`;
+        $('timelineAdvice').innerHTML=coldHours<18?'<strong>Plan:</strong> Short fermentation—allow enough warm proofing before opening.':coldHours<=48?'<strong>Plan:</strong> Reliable fermentation window. Warm covered dough 2–3 hours before baking.':'<strong>Plan:</strong> Long fermentation—keep cold and watch for overproofing.';
+        renderRatings(math,coldHours);
+        const steps=[math.usePreferment?['Make preferment',`Combine ${g(math.prefermentFlour)} flour, ${g(math.prefermentWater)} water, and ${g(math.prefermentYeast)} yeast; ferment ${n('prefermentHours')} hr.`]:null,['Mix',`Combine ${g(math.finalFlour)} flour, ${g(math.finalWater)} water, ${g(math.salt)} salt, ${g(math.finalYeast)} yeast, and ${g(math.oil)} oil.`],['Develop dough','Rest 20 minutes, then knead or stretch-and-fold until smooth.'],['Divide and ball',`Divide into ${math.pizzas} balls at ${Math.round(math.doughPerPie)}g each.`],['Cold ferment',`${coldHours} hr at ${n('storageTemp')}°F; warm covered 2–3 hr before baking.`],['Bake',`Bake at ${n('ovenTemp')}°F for ${bake}.`]].filter(Boolean);
+        $('steps').innerHTML=steps.map((step,index)=>`<div class="step"><div class="number">${index+1}</div><div><h3>${step[0]}</h3><p>${step[1]}</p></div></div>`).join('');
       }
-
-      function applyProfile(profile) {
-        ids.forEach(id => {
-          if (profile[id] === undefined) return;
-          const element = $(id);
-          element.type === 'checkbox' ? element.checked = Boolean(profile[id]) : element.value = profile[id];
-        });
-        updateTextureLabels();
-        render();
-      }
-
-      function applyTexture(direction) {
-        const setting = textures[$('style').value][direction];
-        $('hydration').value = setting[0];
-        $('oilPct').value = setting[1];
-        $('thickness').value = setting[2];
-        document.querySelectorAll('[data-texture]').forEach(button => button.classList.toggle('selected', button.dataset.texture === direction));
-        $('textureNote').textContent = `Applied ${direction === 'crisp' ? 'harder/crisper' : 'softer/chewier'} setting: ${setting[3]}. Thickness is now ${setting[2]}.`;
-        render();
-      }
-
-      function readSaved() {
-        try { return JSON.parse(localStorage.getItem(storageKey) || '[]'); }
-        catch { return []; }
-      }
-
-      function writeSaved(recipes) {
-        localStorage.setItem(storageKey, JSON.stringify(recipes));
-      }
-
-      function esc(value) {
-        return String(value).replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
-      }
-
-      function renderSaved() {
-        const recipes = readSaved();
-        $('savedRecipes').innerHTML = recipes.length
-          ? recipes.map(recipe => `<div class="saved"><strong>${esc(recipe.name)}</strong><p>${esc(recipe.data.style)} · ${esc(recipe.data.pizzas)} pizzas · ${esc(recipe.data.diameter)} in · thickness ${esc(recipe.data.thickness)}</p><button class="small" data-load="${recipe.id}" type="button">Load</button><button class="small secondary" data-delete="${recipe.id}" type="button">Delete</button></div>`).join('')
-          : '';
-      }
-
-      $('style').addEventListener('change', () => applyProfile(profiles[$('style').value]));
-      ids.forEach(id => $(id).addEventListener('input', render));
-      document.querySelectorAll('[data-texture]').forEach(button => button.addEventListener('click', () => applyTexture(button.dataset.texture)));
-
-      $('saveRecipe').addEventListener('click', () => {
-        const recipes = readSaved();
-        recipes.unshift({
-          id: Date.now(),
-          name: $('recipeName').value.trim() || `${$('style').value} ${$('diameter').value}-inch`,
-          data: currentData()
-        });
-        writeSaved(recipes);
-        $('recipeName').value = '';
-        renderSaved();
-      });
-
-      $('savedRecipes').addEventListener('click', event => {
-        const id = Number(event.target.dataset.load || event.target.dataset.delete);
-        if (!id) return;
-        const recipes = readSaved();
-        if (event.target.dataset.delete) {
-          writeSaved(recipes.filter(recipe => recipe.id !== id));
-          renderSaved();
-          return;
-        }
-        const recipe = recipes.find(item => item.id === id);
-        if (!recipe) return;
-        $('style').value = recipe.data.style || 'New York';
-        ids.forEach(field => {
-          if (recipe.data[field] === undefined) return;
-          const element = $(field);
-          element.type === 'checkbox' ? element.checked = Boolean(recipe.data[field]) : element.value = recipe.data[field];
-        });
-        updateTextureLabels();
-        render();
-      });
-
-      applyProfile(profiles['New York']);
-      renderSaved();
+      function applyProfile(profile) { ids.forEach(id=>{if(profile[id]===undefined)return;const e=$(id);e.type==='checkbox'?e.checked=Boolean(profile[id]):e.value=profile[id];});updateTextureLabels();render(); }
+      function applyTexture(direction) { const setting=textures[$('style').value][direction]; $('hydration').value=setting[0];$('oilPct').value=setting[1];$('thickness').value=setting[2];document.querySelectorAll('[data-texture]').forEach(b=>b.classList.toggle('selected',b.dataset.texture===direction));$('textureNote').textContent=`Applied ${direction==='crisp'?'harder/crisper':'softer/chewier'} setting: ${setting[3]}. Thickness is now ${setting[2]}.`;render(); }
+      function readSaved(){try{return JSON.parse(localStorage.getItem(storageKey)||'[]')}catch{return[]}}
+      function writeSaved(recipes){localStorage.setItem(storageKey,JSON.stringify(recipes))}
+      function esc(value){return String(value).replace(/[&<>'"]/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));}
+      function renderSaved(){const recipes=readSaved();$('savedRecipes').innerHTML=recipes.length?recipes.map(recipe=>`<div class="saved"><strong>${esc(recipe.name)}</strong><p>${esc(recipe.data.style)} · ${esc(recipe.data.pizzas)} pizzas · ${esc(recipe.data.diameter)} in · thickness ${esc(recipe.data.thickness)}</p><button class="small" data-load="${recipe.id}" type="button">Load</button><button class="small secondary" data-delete="${recipe.id}" type="button">Delete</button></div>`).join(''):'';}
+      $('style').addEventListener('change',()=>applyProfile(profiles[$('style').value])); ids.forEach(id=>$(id).addEventListener('input',render)); document.querySelectorAll('[data-texture]').forEach(button=>button.addEventListener('click',()=>applyTexture(button.dataset.texture)));
+      $('saveRecipe').addEventListener('click',()=>{const recipes=readSaved();recipes.unshift({id:Date.now(),name:$('recipeName').value.trim()||`${$('style').value} ${$('diameter').value}-inch`,data:currentData()});writeSaved(recipes);$('recipeName').value='';renderSaved();});
+      $('savedRecipes').addEventListener('click',event=>{const id=Number(event.target.dataset.load||event.target.dataset.delete);if(!id)return;const recipes=readSaved();if(event.target.dataset.delete){writeSaved(recipes.filter(recipe=>recipe.id!==id));renderSaved();return;}const recipe=recipes.find(item=>item.id===id);if(!recipe)return;$('style').value=recipe.data.style||'New York';ids.forEach(field=>{if(recipe.data[field]===undefined)return;const e=$(field);e.type==='checkbox'?e.checked=Boolean(recipe.data[field]):e.value=recipe.data[field];});updateTextureLabels();render();});
+      applyProfile(profiles['New York']);renderSaved();
     })();
   </script>
 </body>
